@@ -1,6 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- The sidebar's brand tile: --ink ground, --bg letter, accent corner dot. -->
-  <rect width="64" height="64" rx="16" fill="#15131c"/>
-  <text x="31" y="45" text-anchor="middle" font-family="Poppins, 'Segoe UI', Arial, sans-serif" font-size="38" font-weight="700" fill="#fbf9f6">J</text>
-  <circle cx="51" cy="51" r="5" fill="#7c3aed"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges">
+  <!-- Kaisora app icon: the Pixel K on the brand near-black tile. -->
+  <rect width="64" height="64" rx="14" fill="#0B0B0F" shape-rendering="geometricPrecision"/>
+  <rect x="13" y="13" width="6" height="6" fill="#FFFFFF"/><rect x="13" y="21" width="6" height="6" fill="#FFFFFF"/><rect x="13" y="29" width="6" height="6" fill="#FFFFFF"/><rect x="13" y="37" width="6" height="6" fill="#FFFFFF"/><rect x="13" y="45" width="6" height="6" fill="#FFFFFF"/><rect x="21" y="29" width="6" height="6" fill="#FFFFFF"/><rect x="29" y="29" width="6" height="6" fill="#7B2FF7"/><rect x="37" y="21" width="6" height="6" fill="#7B2FF7"/><rect x="45" y="13" width="6" height="6" fill="#7B2FF7"/><rect x="37" y="37" width="6" height="6" fill="#7B2FF7"/><rect x="45" y="45" width="6" height="6" fill="#7B2FF7"/>
 </svg>

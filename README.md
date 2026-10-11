@@ -1,7 +1,8 @@
-# Justin Patterson — Portfolio
+# Kaisora Systems
 
-The personal site of Justin Patterson, Software Developer & Systems Analyst
-(Trinidad & Tobago): a single-page portfolio plus a case-study page for each
+The website of Kaisora Systems, a founder-led software studio in Trinidad &
+Tobago that builds web applications, online stores, backend systems and
+business automation. It has a single homepage plus a case-study page for each
 project.
 
 Built with Next.js 16 (App Router), React 19, TypeScript and Tailwind CSS 4.
@@ -21,16 +22,21 @@ npm run lint
 | Path | What |
 | --- | --- |
 | `src/app/` | Routes: the homepage, `/work/[slug]` case studies, 404, `robots.txt`, `sitemap.xml` |
-| `src/components/home/` | Homepage sections, in page order |
-| `src/components/layout/` | The fixed sidebar rail and theme toggle |
+| `src/components/home/` | Homepage sections, including the live system panel in the hero |
+| `src/components/site/` | Header, wordmark, contact + footer, theme toggle (shared by every page) |
 | `src/components/work/` | The case-study template and architecture diagram |
-| `src/components/ui/` | Shared primitives (headings, CTAs, chips, scroll reveal) |
-| `src/lib/content/` | **All site copy and links** — edit here, not in the markup |
-| `src/lib/theme/` | Light/dark theme and accent palettes |
+| `src/components/ui/` | Scroll reveal |
+| `src/lib/content/` | **All site copy and links.** Edit here, not in the markup |
+| `src/lib/content/system.ts` | The nodes, services and events in the homepage system panel |
+| `src/lib/theme/` | Dark (default) / light theme |
 | `src/app/globals.css` | Design tokens, component styles, motion |
+| `brand/`, `public/brand/` | The brand sheet (reference) and the Pixel K logo as SVG |
+| `DESIGN.md`, `PRODUCT.md` | The design system and the product facts the site must respect |
 
-Adding a project is one entry in `src/lib/content/case-studies.ts`; its card
-and its `/work/<slug>` page follow from it.
+Adding a project takes one entry in `src/lib/content/case-studies.ts`, and
+its card and `/work/<slug>` page follow from it. A `public` project is
+Kaisora's own work. A `proprietary` one is the founder's prior professional
+work, and the site labels it that way.
 
 ## Configuration
 
@@ -42,8 +48,6 @@ Security headers (CSP, HSTS and friends) are set in `next.config.ts`.
 
 ## Before launch
 
-Values that are deliberately `null` until real ones exist — the UI hides
-whatever they would drive rather than showing placeholders:
-
-- `CONTACT_EMAIL` — `src/lib/content/contact.ts`
-- `RESUME_URL` — `src/lib/content/profile.ts`
+- `CONTACT_EMAIL` in `src/lib/content/contact.ts`: the business email. It is
+  `null` until a real address exists. Meanwhile "Start a project" leads to
+  LinkedIn, and the email button appears as soon as the address is set.

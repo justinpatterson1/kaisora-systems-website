@@ -10,52 +10,24 @@ import {
   type ReactNode,
 } from "react";
 
-import type { PaletteName } from "./palettes";
 import { readPreference, subscribe, writePreference } from "./preferences";
-import {
-  PALETTE_STORAGE_KEY,
-  THEME_STORAGE_KEY,
-  applyTheme,
-  parseMode,
-  parsePalette,
-  type ThemeMode,
-} from "./theme";
-import { TWEAKS_STORAGE_KEY, parseTweaks, type Tweaks } from "./tweaks";
+import { THEME_STORAGE_KEY, applyTheme, parseMode, type ThemeMode } from "./theme";
 
 type ThemeContextValue = {
   mode: ThemeMode;
-  palette: PaletteName;
-  tweaks: Tweaks;
-  /** False during SSR and the hydration render, when the defaults are showing. */
+  /** False during SSR and the hydration render, when the default is showing. */
   ready: boolean;
   toggleMode: () => void;
-  setMode: (mode: ThemeMode) => void;
-  setPalette: (palette: PaletteName) => void;
-  setTweaks: (patch: Partial<Tweaks>) => void;
 };
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-/** Subscribes to one stored preference. Returns null on the server. */
-function useStored(key: string): string | null {
-  return useSyncExternalStore(
-    subscribe,
-    () => readPreference(key),
-    () => null,
-  );
-}
-
 /**
- * Exposes theme, palette and tweak state, and mirrors it onto <html>.
+ * Exposes the theme and mirrors it onto <html>.
  *
- * This provider does **not** close the dark-mode flash — the pre-paint script
- * in the root layout does that, before React exists. The provider's job is the
- * other half: giving controls (the sidebar theme toggle, any tweaks surface) a
- * single place to read and write those preferences afterwards.
- *
- * State is read straight out of localStorage rather than copied into
- * `useState`, so there is no window where React's idea of the theme and the
- * stored one disagree, and no effect that has to reconcile them.
+ * The pre-paint script in the root layout owns the first frame; this provider
+ * owns changes after hydration. State is read straight out of localStorage, so
+ * React's idea of the theme and the stored one can never disagree.
  */
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const ready = useSyncExternalStore(
@@ -64,51 +36,26 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     () => false,
   );
 
-  const mode = parseMode(useStored(THEME_STORAGE_KEY));
-  const palette = parsePalette(useStored(PALETTE_STORAGE_KEY));
-  const rawTweaks = useStored(TWEAKS_STORAGE_KEY);
-  const tweaks = useMemo(() => parseTweaks(rawTweaks), [rawTweaks]);
+  const mode = parseMode(
+    useSyncExternalStore(
+      subscribe,
+      () => readPreference(THEME_STORAGE_KEY),
+      () => null,
+    ),
+  );
 
-  /* Push the resolved preferences onto <html>. Skipped until hydration so the
-     defaults can't overwrite what the bootstrap correctly applied pre-paint. */
+  /* Skipped until hydration so the default can't overwrite what the
+     bootstrap correctly applied pre-paint. */
   useEffect(() => {
-    if (!ready) return;
-    applyTheme(mode, palette, tweaks);
-  }, [ready, mode, palette, tweaks]);
-
-  const setMode = useCallback((next: ThemeMode) => {
-    writePreference(THEME_STORAGE_KEY, next);
-  }, []);
+    if (ready) applyTheme(mode);
+  }, [ready, mode]);
 
   const toggleMode = useCallback(() => {
     const current = parseMode(readPreference(THEME_STORAGE_KEY));
     writePreference(THEME_STORAGE_KEY, current === "dark" ? "light" : "dark");
   }, []);
 
-  const setPalette = useCallback((next: PaletteName) => {
-    writePreference(PALETTE_STORAGE_KEY, next);
-  }, []);
-
-  /* Re-read before merging rather than closing over `tweaks`, so two controls
-     changed in the same tick can't clobber each other. */
-  const setTweaks = useCallback((patch: Partial<Tweaks>) => {
-    const current = parseTweaks(readPreference(TWEAKS_STORAGE_KEY));
-    writePreference(TWEAKS_STORAGE_KEY, JSON.stringify({ ...current, ...patch }));
-  }, []);
-
-  const value = useMemo<ThemeContextValue>(
-    () => ({
-      mode,
-      palette,
-      tweaks,
-      ready,
-      toggleMode,
-      setMode,
-      setPalette,
-      setTweaks,
-    }),
-    [mode, palette, tweaks, ready, toggleMode, setMode, setPalette, setTweaks],
-  );
+  const value = useMemo(() => ({ mode, ready, toggleMode }), [mode, ready, toggleMode]);
 
   return <ThemeContext value={value}>{children}</ThemeContext>;
 }

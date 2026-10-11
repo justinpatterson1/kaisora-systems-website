@@ -1,7 +1,7 @@
 /**
  * localStorage as a subscribable store.
  *
- * The theme, palette and tweaks all live in localStorage, which makes it the
+ * The theme preference lives in localStorage, which makes it the
  * source of truth rather than a mirror of React state. Modelling it as a real
  * external store means `useSyncExternalStore` can read it — which gets the
  * server/hydration pass right by construction, and picks up changes made in

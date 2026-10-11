@@ -113,7 +113,7 @@ export const CASE_STUDIES: readonly CaseStudy[] = [
 
     overview: [
       "SherryBerries sells body jewelry, piercing aftercare and accessories in Trinidad & Tobago. The platform is the business’s complete online store: a customer-facing storefront, a checkout that handles local payment and delivery options, and an admin dashboard for running the shop day to day.",
-      "I designed and built it end to end — data model, API, storefront, admin tooling, payments, email and deployment.",
+      "Kaisora designed and built it end to end — data model, API, storefront, admin tooling, payments, email and deployment.",
     ],
     problem: [
       "A local jewelry business needs more than a product grid. Items come in several sizes — gauge, length or diameter — each with its own stock. Customers need to be able to pay by bank transfer as well as by card, and to choose between collecting an order and having it delivered.",

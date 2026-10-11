@@ -230,6 +230,109 @@ export function BookmarkIcon(p: IconProps) {
   );
 }
 
+/* ---- Kaisora system-graph and service glyphs (1.6 stroke) ---- */
+
+export function MonitorIcon(p: IconProps) {
+  return (
+    <svg {...STROKE} strokeWidth={1.6} {...p}>
+      <rect x="3" y="4" width="18" height="12" rx="1.5" />
+      <path d="M8 20h8M12 16v4" />
+    </svg>
+  );
+}
+
+export function BoltIcon(p: IconProps) {
+  return (
+    <svg {...STROKE} strokeWidth={1.6} {...p}>
+      <path d="M13 2.5 4.5 13.5H12l-1 8 8.5-11H12l1-8Z" />
+    </svg>
+  );
+}
+
+export function UsersIcon(p: IconProps) {
+  return (
+    <svg {...STROKE} strokeWidth={1.6} {...p}>
+      <circle cx="12" cy="8" r="3.25" />
+      <path d="M5.5 20c.6-3.3 3.2-5.5 6.5-5.5s5.9 2.2 6.5 5.5" />
+      <circle cx="5" cy="9.5" r="2.25" />
+      <circle cx="19" cy="9.5" r="2.25" />
+      <path d="M1.75 18.5c.3-2 1.6-3.4 3.4-3.8M22.25 18.5c-.3-2-1.6-3.4-3.4-3.8" />
+    </svg>
+  );
+}
+
+export function PersonIcon(p: IconProps) {
+  return (
+    <svg {...STROKE} strokeWidth={1.6} {...p}>
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4.5 21c.8-4 3.8-6.5 7.5-6.5s6.7 2.5 7.5 6.5" />
+    </svg>
+  );
+}
+
+export function TriangleIcon(p: IconProps) {
+  return (
+    <svg {...STROKE} strokeWidth={1.6} {...p}>
+      <path d="M11 2.5 3.5 18.5l8.5 3.5 8.5-3.5Z" />
+      <path d="M11 2.5 12 22" />
+    </svg>
+  );
+}
+
+export function ShieldIcon(p: IconProps) {
+  return (
+    <svg {...STROKE} strokeWidth={1.6} {...p}>
+      <path d="M12 2.75 4.5 5.5v6c0 4.6 3.2 8.3 7.5 9.75 4.3-1.45 7.5-5.15 7.5-9.75v-6Z" />
+    </svg>
+  );
+}
+
+export function CardIcon(p: IconProps) {
+  return (
+    <svg {...STROKE} strokeWidth={1.6} {...p}>
+      <rect x="2.75" y="5" width="18.5" height="14" rx="1.75" />
+      <path d="M2.75 10h18.5M6.5 15h3" />
+    </svg>
+  );
+}
+
+export function CloudIcon(p: IconProps) {
+  return (
+    <svg {...STROKE} strokeWidth={1.6} {...p}>
+      <path d="M7 18.5a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18 8.5a4 4 0 0 1-.5 10Z" />
+    </svg>
+  );
+}
+
+export function LayersIcon(p: IconProps) {
+  return (
+    <svg {...STROKE} strokeWidth={1.6} {...p}>
+      <path d="m12 3 9 4.5-9 4.5-9-4.5Z" />
+      <path d="m3 12 9 4.5 9-4.5M3 16.5 12 21l9-4.5" />
+    </svg>
+  );
+}
+
+export function AlertIcon(p: IconProps) {
+  return (
+    <svg {...STROKE} strokeWidth={1.6} {...p}>
+      <path d="M12 3.5 2.5 20h19Z" />
+      <path d="M12 10v4.5M12 17.25v.01" />
+    </svg>
+  );
+}
+
+/** A generic app mark: a ring around a letter-free chevron, standing in for
+    the framework node without borrowing a brand's logo. */
+export function AppIcon(p: IconProps) {
+  return (
+    <svg {...STROKE} strokeWidth={1.6} {...p}>
+      <circle cx="12" cy="12" r="9.25" />
+      <path d="M9 16V8l6 8V8" />
+    </svg>
+  );
+}
+
 /* ---- Filled brand marks ----
 
    The one exception to the stroke rules above: these are the brands' own

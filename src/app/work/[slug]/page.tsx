@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { Footer } from "@/components/home/footer";
-import { Sidebar } from "@/components/layout/sidebar";
+import { SiteFooter } from "@/components/site/site-footer";
+import { SiteHeader } from "@/components/site/site-header";
 import { CaseStudyView } from "@/components/work/case-study";
 import {
   CASE_STUDIES,
   caseStudyHref,
   getCaseStudy,
 } from "@/lib/content/case-studies";
-import { PERSON_NAME } from "@/lib/content/profile";
+import { SITE_NAME } from "@/lib/content/profile";
 
 /**
  * `/work/[slug]` — one page per case study (Prompt 14).
@@ -41,16 +41,16 @@ export async function generateMetadata(
     description: study.metaDescription,
     twitter: {
       card: study.socialImage ? "summary_large_image" : "summary",
-      title: `${title} | ${PERSON_NAME}`,
+      title: `${title} | ${SITE_NAME}`,
       description: study.metaDescription,
       ...(study.socialImage && { images: [study.socialImage] }),
     },
     alternates: { canonical: url },
     openGraph: {
       type: "article",
-      siteName: PERSON_NAME,
+      siteName: SITE_NAME,
       url,
-      title: `${title} | ${PERSON_NAME}`,
+      title: `${title} | ${SITE_NAME}`,
       description: study.metaDescription,
       /* A real screenshot where one exists; otherwise none, rather than a
          generated or borrowed image (Prompt 21). */
@@ -75,11 +75,11 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
 
   return (
     <>
-      <Sidebar />
-      <main>
+      <SiteHeader />
+      <main id="main">
         <CaseStudyView study={study} />
       </main>
-      <Footer />
+      <SiteFooter />
     </>
   );
 }

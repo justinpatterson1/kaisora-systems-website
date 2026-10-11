@@ -2,201 +2,107 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ArrowIcon, ExternalIcon } from "@/components/icons";
-import { Cta, Eyebrow, H2, Lede, Reveal } from "@/components/ui";
-import {
-  CASE_STUDIES,
-  caseStudyHref,
-  type CaseStudy,
-} from "@/lib/content/case-studies";
-import { GITHUB_URL } from "@/lib/content/contact";
+import { Reveal } from "@/components/ui";
+import { CASE_STUDIES, caseStudyHref } from "@/lib/content/case-studies";
 
 import { TagList } from "./tag-list";
-import { WorkSlider } from "./work-slider";
 
 /**
- * The plural of `CONFIDENTIALITY_NOTE` for the group of cards. Each
- * case-study page still carries Prompt 13's exact sentence.
- */
-const GROUP_NOTE =
-  "These case studies have been intentionally generalized to protect confidential business information.";
-
-/**
- * Section 04 — Selected Work. Spec: context/features/13_SELECTED_WORK_CASE_STUDIES.md,
- * replacing the template projects built from 05-projects.md.
- *
- * Static markup, so it stays a server component and ships no JavaScript.
- *
- * Two card shapes, on purpose, each group in its own slider (`WorkSlider`):
- * - **The public project** gets a wide card with its real screenshot, a live
- *   link and a case study. It is the one piece of work anyone can go and check,
- *   so it leads.
- * - **Professional work** gets compact text cards with no imagery at all.
- *   Screenshots would expose confidential systems and generated thumbnails
- *   would be decoration pretending to be evidence, so these say what they are
- *   — generalized — and link to their case study, never to code.
- *
- * Adding a project is one entry in `CASE_STUDIES`; the page and card follow.
+ * Selected work. SherryBerries is Kaisora's own build and leads. The
+ * proprietary case studies are the founder's prior professional work, shown
+ * honestly as that, and as the kind of system Kaisora builds from it.
  */
 export function Work() {
-  const featured = CASE_STUDIES.filter((study) => study.kind === "public");
-  const professional = CASE_STUDIES.filter(
-    (study) => study.kind === "proprietary",
-  );
+  const featured = CASE_STUDIES.find((study) => study.kind === "public");
+  const experience = CASE_STUDIES.filter((study) => study.kind === "proprietary");
 
   return (
-    <section id="work" className="section scroll-mt-10">
+    <section id="work" className="section" aria-labelledby="work-title">
       <div className="wrap">
-        {/* The only split header on the site. */}
-        <Reveal className="projects-head">
+        <h2 id="work-title" className="section-title">
+          Selected work
+        </h2>
+        <p className="section-lede">
+          Every project gets a full write-up: the problem, the architecture,
+          the decisions, and what was done to keep it running.
+        </p>
+
+        {featured && (
+          <Reveal className="featured">
+            <div>
+              <h3>{featured.title}</h3>
+              <p className="featured-meta">
+                <span className="live-dot" aria-hidden />
+                Kaisora project · {featured.label}
+              </p>
+              <p>{featured.summary}</p>
+              <TagList tags={featured.tags.slice(0, 5)} />
+              <div className="featured-actions">
+                <Link href={caseStudyHref(featured)} className="btn btn-primary">
+                  Read the case study
+                  <ArrowIcon width={14} height={14} />
+                </Link>
+                {featured.liveUrl && (
+                  <a
+                    href={featured.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-ghost"
+                  >
+                    Visit the store
+                    <ExternalIcon width={13} height={13} />
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                )}
+              </div>
+            </div>
+            {featured.image && (
+              <div className="shot">
+                <div className="shot-bar" aria-hidden>
+                  <span />
+                  <span />
+                  <span />
+                </div>
+                <Image
+                  src={featured.image.src}
+                  width={featured.image.width}
+                  height={featured.image.height}
+                  alt={featured.image.alt}
+                  sizes="(max-width: 980px) 100vw, 620px"
+                />
+              </div>
+            )}
+          </Reveal>
+        )}
+
+        <div className="experience-head">
           <div>
-            <Eyebrow>Case Studies</Eyebrow>
-            <H2>Selected Work.</H2>
-            <Lede>
-              Real-world applications, automation and systems I&apos;ve designed
-              to solve business and operational problems.
-            </Lede>
+            <h3>From the founder&apos;s experience</h3>
+            <p>
+              Systems our founder built in financial services before Kaisora,
+              generalized to protect the employer. It is the same kind of work
+              we build for clients now.
+            </p>
           </div>
-          {/* `noopener noreferrer` because this leaves the site. */}
-          <Cta
-            variant="ghost"
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0"
-          >
-            GitHub profile
-            <ExternalIcon width={13} height={13} />
-            <span className="sr-only"> (opens in a new tab)</span>
-          </Cta>
-        </Reveal>
-
-        <div className="work-stack">
-          <WorkSlider
-            label="Public projects"
-            variant="wide"
-            count={featured.length}
-            heading={
-              <h3 className="work-group-title text-card-tag">
-                Public projects
-              </h3>
-            }
-          >
-            {featured.map((study, i) => (
-              <li
-                key={study.slug}
-                aria-roledescription="slide"
-                aria-label={`${i + 1} of ${featured.length}`}
-              >
-                <FeaturedCard study={study} />
-              </li>
-            ))}
-          </WorkSlider>
-
-          {/* The slider is the one client piece here; the cards are
-              server-rendered and passed in as children. */}
-          <WorkSlider
-            label="Professional work"
-            variant="compact"
-            count={professional.length}
-            heading={
-              <>
-                <h3 className="work-group-title text-card-tag">
-                  Professional work
-                </h3>
-                <p className="work-note text-label">{GROUP_NOTE}</p>
-              </>
-            }
-          >
-            {professional.map((study, i) => (
-              <li
-                key={study.slug}
-                aria-roledescription="slide"
-                aria-label={`${i + 1} of ${professional.length}`}
-              >
-                <CompactCard study={study} />
-              </li>
-            ))}
-          </WorkSlider>
         </div>
+        <Reveal as="ul" stagger className="capabilities">
+          {experience.map((study) => (
+            <li key={study.slug} className="capability">
+              <Link href={caseStudyHref(study)}>
+                <div>
+                  <h4>{study.title}</h4>
+                  <span className="capability-label">{study.label}</span>
+                </div>
+                <p>{study.summary}</p>
+                <span className="capability-go">
+                  Case study
+                  <ArrowIcon width={14} height={14} />
+                </span>
+              </Link>
+            </li>
+          ))}
+        </Reveal>
       </div>
     </section>
-  );
-}
-
-/** The wide public-project card: screenshot left, copy and actions right. */
-function FeaturedCard({ study }: { study: CaseStudy }) {
-  const { title, label, summary, tags, image, liveUrl } = study;
-
-  return (
-    <article className="work-feature">
-      {image && (
-        <Link
-          href={caseStudyHref(study)}
-          className="work-feature-media"
-          tabIndex={-1}
-          aria-hidden
-        >
-          <Image
-            src={image.src}
-            width={image.width}
-            height={image.height}
-            alt=""
-            sizes="(max-width: 980px) 100vw, 640px"
-          />
-        </Link>
-      )}
-
-      <div className="work-feature-body">
-        <p className="work-label text-card-tag">{label}</p>
-        {/* <h4>: it sits under the "Public projects" group <h3>, like the
-            compact cards under "Professional work". */}
-        <h4 className="work-title text-title-tight text-ink">{title}</h4>
-        <p className="work-desc text-desc text-ink-3">{summary}</p>
-        <TagList tags={tags} />
-
-        <div className="work-actions">
-          <Cta variant="accent" href={caseStudyHref(study)}>
-            View Case Study
-            <ArrowIcon width={14} height={14} />
-            <span className="sr-only">: {title}</span>
-          </Cta>
-          {liveUrl && (
-            <Cta
-              variant="ghost"
-              href={liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Visit Website
-              <ExternalIcon width={13} height={13} />
-              <span className="sr-only"> (opens in a new tab)</span>
-            </Cta>
-          )}
-        </div>
-      </div>
-    </article>
-  );
-}
-
-/**
- * A professional-work card. The whole card is clickable through the stretched
- * `::after` on its one link, so there is a single tab stop and a single,
- * descriptive link name — not a card-sized anchor wrapping a heading.
- */
-function CompactCard({ study }: { study: CaseStudy }) {
-  const { title, label, summary, tags } = study;
-
-  return (
-    <article className="work-card">
-      <p className="work-label text-card-tag">{label}</p>
-      <h4 className="work-title text-title-tight text-ink">{title}</h4>
-      <p className="work-desc text-desc text-ink-3">{summary}</p>
-      <TagList tags={tags} />
-      <Link href={caseStudyHref(study)} className="work-card-link text-pill">
-        Read Case Study
-        <span className="sr-only">: {title}</span>
-        <ArrowIcon width={12} height={12} />
-      </Link>
-    </article>
   );
 }
