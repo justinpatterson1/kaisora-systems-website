@@ -1,22 +1,22 @@
+/** The production domain, confirmed by the owner 2026-10-12. */
+const PRODUCTION_URL = "https://kaisorasystems.com";
+
 /**
  * The site's canonical origin, for `metadataBase`, canonical URLs, the sitemap
  * and robots.txt (Prompt 21).
  *
- * Never hardcoded, because the production domain has not been confirmed:
- * 1. `NEXT_PUBLIC_SITE_URL`, when set — the explicit answer. TODO(Justin): set
- *    it in the Vercel project once the domain is final.
- * 2. `VERCEL_PROJECT_PRODUCTION_URL`, which Vercel provides at build time —
- *    the project's real production domain, not a guess.
- * 3. localhost, for local development.
+ * 1. `NEXT_PUBLIC_SITE_URL`, when set — an explicit override.
+ * 2. localhost under `next dev`.
+ * 3. The production domain for every build, previews included, so canonical
+ *    URLs always point at the real site rather than a deployment URL.
  */
 function resolveSiteUrl(): string {
   const explicit = process.env.NEXT_PUBLIC_SITE_URL;
   if (explicit) return explicit.replace(/\/+$/, "");
 
-  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-  if (vercel) return `https://${vercel}`;
+  if (process.env.NODE_ENV === "development") return "http://localhost:3000";
 
-  return "http://localhost:3000";
+  return PRODUCTION_URL;
 }
 
 export const SITE_URL = resolveSiteUrl();

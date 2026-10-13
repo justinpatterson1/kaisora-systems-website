@@ -46,3 +46,11 @@ next-env.d.ts
 
 # source artwork (originals of what ships in public/)
 /assets/
+
+# impeccable session artifacts (mockups, screenshots, build state); the
+# durable files (config.json, design.json, surfaces/) are committed
+/.impeccable/build/
+/.impeccable/mocks/
+/.impeccable/review/
+/.impeccable/questions/
+/.impeccable/hook.cache.json

@@ -32,32 +32,32 @@ export function ArchitectureDiagram({
                 branch && i === branch.from ? "arch-node arch-node-anchor" : "arch-node"
               }
             >
-              <span className="arch-node-label text-title-tight text-ink">
+              <span className="arch-node-label">
                 {node.label}
               </span>
-              <span className="text-label text-ink-3">{node.detail}</span>
+              <span className="arch-detail">{node.detail}</span>
             </li>
           ))}
         </ol>
 
         {branch && anchor && (
           <div className="arch-branch">
-            <p className="arch-branch-title text-card-tag">{branch.title}</p>
-            <p className="arch-branch-from text-label text-ink-3">
-              Called from <strong className="text-ink">{anchor.label}</strong>
+            <p className="arch-branch-title">{branch.title}</p>
+            <p className="arch-branch-from">
+              Called from <strong>{anchor.label}</strong>
             </p>
             <ul className="arch-branch-list">
               {branch.nodes.map((node) => (
                 <li key={node.label} className="arch-chip">
-                  <span className="text-pill text-ink">{node.label}</span>
-                  <span className="text-label text-ink-3">{node.detail}</span>
+                  <span>{node.label}</span>
+                  <span className="arch-detail">{node.detail}</span>
                 </li>
               ))}
             </ul>
           </div>
         )}
       </div>
-      <figcaption className="arch-caption text-label text-ink-3">
+      <figcaption className="arch-caption">
         {caption}
       </figcaption>
     </figure>

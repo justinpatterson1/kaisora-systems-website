@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 
 import { TagList } from "@/components/home/tag-list";
 import { ArrowIcon, ExternalIcon, GitHubIcon } from "@/components/icons";
-import { Cta, Eyebrow, Lede } from "@/components/ui";
 import {
   CONFIDENTIALITY_NOTE,
   type CaseStudy,
@@ -13,34 +12,28 @@ import {
 
 import { ArchitectureDiagram } from "./architecture-diagram";
 
-/** Prompt 14's nine sections, in order. `id`s double as the contents links. */
+/** The nine sections, in order. `id`s double as the contents links. */
 const SECTIONS = [
   { id: "overview", title: "Overview" },
-  { id: "problem", title: "The Problem" },
-  { id: "solution", title: "The Solution" },
+  { id: "problem", title: "The problem" },
+  { id: "solution", title: "The solution" },
   { id: "architecture", title: "Architecture" },
-  { id: "decisions", title: "Key Engineering Decisions" },
+  { id: "decisions", title: "Key engineering decisions" },
   { id: "challenges", title: "Challenges" },
-  { id: "reliability", title: "Reliability & Security" },
-  { id: "impact", title: "Results & Impact" },
+  { id: "reliability", title: "Reliability & security" },
+  { id: "impact", title: "Results & impact" },
   { id: "technologies", title: "Technologies" },
 ] as const;
 
 type SectionId = (typeof SECTIONS)[number]["id"];
 
 /**
- * The reusable case-study page — Prompt 14.
- *
- * Every case study renders through this one template from its `CASE_STUDIES`
+ * The case-study template. Every case study renders from its `CASE_STUDIES`
  * record, so adding a project is data, not layout.
  *
- * Public and proprietary work differ only where they must: a public project
- * gets its screenshot, live link and repository link; a proprietary one gets
- * the confidentiality notice in their place and never a code link.
- *
- * Reading comfort (Prompt 14): a 720px measure, prose broken into short
- * paragraphs, lists and titled cards rather than long blocks, and a sticky
- * contents list on wide screens.
+ * A public project is Kaisora's own work and gets its screenshot, live link
+ * and repository. A proprietary one is the founder's prior professional work:
+ * it says so, carries the confidentiality notice, and never links to code.
  */
 export function CaseStudyView({ study }: { study: CaseStudy }) {
   const isPublic = study.kind === "public";
@@ -66,60 +59,65 @@ export function CaseStudyView({ study }: { study: CaseStudy }) {
     <article>
       <header className="cs-head">
         <div className="wrap">
-          <Link href="/#work" className="cs-back text-pill">
+          <Link href="/#work" className="cs-back">
             <ArrowIcon width={14} height={14} className="rotate-180" />
-            Selected Work
+            Selected work
           </Link>
 
-          <Eyebrow>{isPublic ? "Case Study" : "Case Study · Professional work"}</Eyebrow>
-          <h1 className="cs-title text-h2 text-ink">{study.title}</h1>
-          <Lede>{study.summary}</Lede>
+          <h1 className="cs-title">{study.title}</h1>
+          <p className="cs-kind">
+            {isPublic ? "Kaisora project" : "Founder's prior work, generalized"}
+          </p>
+          <p className="cs-lede">{study.summary}</p>
 
-          <div className="mt-6">
-            <TagList tags={study.tags} />
-          </div>
+          <TagList tags={study.tags} />
 
           {isPublic ? (
             (study.liveUrl || study.repoUrl) && (
               <div className="cs-actions">
                 {study.liveUrl && (
-                  <Cta
-                    variant="accent"
+                  <a
                     href={study.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="btn btn-primary"
                   >
-                    Visit Website
+                    Visit the website
                     <ExternalIcon width={13} height={13} />
                     <span className="sr-only"> (opens in a new tab)</span>
-                  </Cta>
+                  </a>
                 )}
                 {study.repoUrl && (
-                  <Cta
-                    variant="ghost"
+                  <a
                     href={study.repoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="btn btn-ghost"
                   >
                     <GitHubIcon width={14} height={14} />
-                    View Source
+                    View source
                     <span className="sr-only"> on GitHub (opens in a new tab)</span>
-                  </Cta>
+                  </a>
                 )}
               </div>
             )
           ) : (
-            <p className="cs-notice text-label">{CONFIDENTIALITY_NOTE}</p>
+            <p className="cs-notice">{CONFIDENTIALITY_NOTE}</p>
           )}
 
           {study.image && (
-            <div className="cs-shot">
+            <div className="cs-shot shot">
+              <div className="shot-bar" aria-hidden>
+                <span />
+                <span />
+                <span />
+              </div>
               <Image
                 src={study.image.src}
                 width={study.image.width}
                 height={study.image.height}
                 alt={study.image.alt}
-                sizes="(max-width: 1264px) 100vw, 1200px"
+                sizes="(max-width: 1240px) 100vw, 1192px"
                 loading="eager"
                 fetchPriority="high"
               />
@@ -130,39 +128,34 @@ export function CaseStudyView({ study }: { study: CaseStudy }) {
 
       <div className="wrap cs-layout">
         <nav aria-label="Case study sections" className="cs-toc">
-          <p className="cs-toc-title text-card-tag">Contents</p>
+          <p>Contents</p>
           <ol>
             {SECTIONS.map((section) => (
               <li key={section.id}>
-                <a href={`#${section.id}`} className="text-label">
-                  {section.title}
-                </a>
+                <a href={`#${section.id}`}>{section.title}</a>
               </li>
             ))}
           </ol>
         </nav>
 
-        <div className="cs-body">
-          {SECTIONS.map((section, i) => (
+        <div>
+          {SECTIONS.map((section) => (
             <section
               key={section.id}
               id={section.id}
               aria-labelledby={`${section.id}-title`}
-              className="cs-section scroll-mt-10"
+              className="cs-section"
             >
-              <p className="cs-num text-card-tag" aria-hidden>
-                {String(i + 1).padStart(2, "0")}
-              </p>
-              <h2 id={`${section.id}-title`} className="cs-h2 text-stat text-ink">
+              <h2 id={`${section.id}-title`} className="cs-h2">
                 {section.title}
               </h2>
               {body[section.id]}
             </section>
           ))}
 
-          <Link href="/#work" className="cs-back cs-back-end text-pill">
+          <Link href="/#work" className="cs-back cs-end">
             <ArrowIcon width={14} height={14} className="rotate-180" />
-            Back to Selected Work
+            Back to selected work
           </Link>
         </div>
       </div>
@@ -194,8 +187,8 @@ function TitledList({ items, grid }: { items: readonly Titled[]; grid?: boolean 
     <ul className={grid ? "cs-cards cs-cards-grid" : "cs-cards"}>
       {items.map((item) => (
         <li key={item.title} className="cs-card">
-          <h3 className="text-title-tight text-ink">{item.title}</h3>
-          <p className="mt-2 text-desc-loose text-ink-2">{item.body}</p>
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
         </li>
       ))}
     </ul>

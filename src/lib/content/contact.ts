@@ -18,11 +18,10 @@ import {
  */
 
 /**
- * TODO(Justin): the professional email address, before deployment
- * (open-issues.md #3). While this is `null` the footer shows no email pill and
- * no Email row — Prompt 19 forbids rendering placeholder text in production.
+ * Confirmed by the owner 2026-10-12. If this is ever `null`, the footer shows
+ * no email button and no Email row — Prompt 19 forbids placeholder text.
  */
-export const CONTACT_EMAIL: string | null = null;
+export const CONTACT_EMAIL: string | null = "info@kaisorasystems.com";
 
 /**
  * Confirmed by the owner 2026-09-26. Shared with the Hero, Selected Work and

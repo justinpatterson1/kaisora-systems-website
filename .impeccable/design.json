@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-11T00:00:00Z",
+  "title": "Design System: Kaisora Systems",
+  "extensions": {
+    "colorMeta": {
+      "ground": { "role": "neutral", "displayName": "Console Black", "canonical": "#0b0b0f", "tonalRamp": ["#0b0b0f", "#0f0f14", "#121217", "#17171d", "#2a2b30", "#60646c", "#a3a6ad", "#ededef"] },
+      "ground-raise": { "role": "neutral", "displayName": "Raised Black", "canonical": "#0f0f14" },
+      "panel": { "role": "neutral", "displayName": "Charcoal Panel", "canonical": "#121217" },
+      "panel-2": { "role": "neutral", "displayName": "Charcoal Hover", "canonical": "#17171d" },
+      "hairline": { "role": "neutral", "displayName": "Hairline", "canonical": "rgb(255 255 255 / 0.08)" },
+      "hairline-2": { "role": "neutral", "displayName": "Border", "canonical": "rgb(255 255 255 / 0.14)" },
+      "hairline-3": { "role": "neutral", "displayName": "Hover Border", "canonical": "rgb(255 255 255 / 0.24)" },
+      "ink": { "role": "neutral", "displayName": "Off-White Ink", "canonical": "#ededef" },
+      "ink-2": { "role": "neutral", "displayName": "Secondary Grey", "canonical": "#a3a6ad" },
+      "ink-3": { "role": "neutral", "displayName": "Caption Grey", "canonical": "#8a8f98" },
+      "signal-purple": { "role": "primary", "displayName": "Signal Purple", "canonical": "#7b2ff7", "tonalRamp": ["#1e0b3d", "#2e1065", "#6420d8", "#7b2ff7", "#8c4bff", "#a78bfa", "#a87bff", "#ede9fe"] },
+      "signal-purple-hover": { "role": "primary", "displayName": "Signal Purple Lifted", "canonical": "#8c4bff" },
+      "on-signal": { "role": "primary", "displayName": "On Signal White", "canonical": "#ffffff" },
+      "signal-tint": { "role": "primary", "displayName": "Live Lilac", "canonical": "#a87bff" },
+      "signal-line": { "role": "primary", "displayName": "Wiring Line", "canonical": "rgb(168 123 255 / 0.5)" },
+      "signal-glow": { "role": "primary", "displayName": "Signal Glow", "canonical": "rgb(123 47 247 / 0.32)" },
+      "light-ground": { "role": "neutral", "displayName": "Light Ground", "canonical": "#f7f7f8", "tonalRamp": ["#0b0b0d", "#45474e", "#60646c", "#c9cace", "#f1f1f3", "#f4f4f6", "#f7f7f8", "#ffffff"] },
+      "light-ground-raise": { "role": "neutral", "displayName": "Light Raised Ground", "canonical": "#f1f1f3" },
+      "light-panel": { "role": "neutral", "displayName": "Light Panel", "canonical": "#ffffff" },
+      "light-panel-2": { "role": "neutral", "displayName": "Light Panel Hover", "canonical": "#f4f4f6" },
+      "light-hairline": { "role": "neutral", "displayName": "Light Hairline", "canonical": "rgb(10 10 11 / 0.09)" },
+      "light-hairline-2": { "role": "neutral", "displayName": "Light Border", "canonical": "rgb(10 10 11 / 0.15)" },
+      "light-ink": { "role": "neutral", "displayName": "Light Ink", "canonical": "#0b0b0d" },
+      "light-ink-2": { "role": "neutral", "displayName": "Light Secondary", "canonical": "#45474e" },
+      "light-ink-3": { "role": "neutral", "displayName": "Light Caption", "canonical": "#60646c" },
+      "light-signal-hover": { "role": "primary", "displayName": "Signal Purple Deepened", "canonical": "#6420d8" },
+      "light-signal-line": { "role": "primary", "displayName": "Light Wiring Line", "canonical": "rgb(106 31 224 / 0.42)" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Homepage hero headline only." },
+      "display-page": { "displayName": "Display Page", "purpose": "Case-study titles and the contact headline." },
+      "headline": { "displayName": "Headline", "purpose": "Section titles." },
+      "title": { "displayName": "Title", "purpose": "Case-study section heads, founder name, featured project title (28px)." },
+      "title-sm": { "displayName": "Title Small", "purpose": "Card, service and step heads (15-18px, 600)." },
+      "body": { "displayName": "Body", "purpose": "Default copy and ledes." },
+      "body-long": { "displayName": "Body Long", "purpose": "Case-study reading column." },
+      "label": { "displayName": "Label", "purpose": "Buttons (600), nav links and node labels (500)." },
+      "data": { "displayName": "Data", "purpose": "Geist Mono for real system data only: node sub-labels, panel name and status, environment tag, event strip, tags, counters." }
+    },
+    "shadows": [
+      { "name": "panel-lift", "value": "0 1px 0 rgb(255 255 255 / 0.03) inset, 0 24px 48px -24px rgb(0 0 0 / 0.6)", "purpose": "Live system panel only (dark). Light: 0 1px 2px rgb(10 10 11 / 0.04), 0 24px 48px -28px rgb(10 10 11 / 0.18)." },
+      { "name": "signal-hover", "value": "0 8px 24px -10px var(--accent-glow)", "purpose": "Primary button hover." },
+      { "name": "tick-glow", "value": "0 0 8px var(--accent-glow)", "purpose": "Junction ticks and step dots." }
+    ],
+    "motion": [
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Reveals, icon nudges, live-dot ring, strip rise-in." },
+      { "name": "ease-travel", "value": "cubic-bezier(0.45, 0, 0.55, 1)", "purpose": "Pulses travelling the main path (4.8s) and SVG connectors (3.6s)." },
+      { "name": "state-fast", "value": "0.15s-0.18s ease", "purpose": "Colour, border and background state changes on links and buttons." },
+      { "name": "reveal", "value": "opacity 0.7s, translate 0.9s (14px rise)", "purpose": "One-time fade-up on first view; disabled without IntersectionObserver or under reduced motion." },
+      { "name": "live-ring", "value": "2.4s infinite", "purpose": "Ring expanding from live dots." },
+      { "name": "strip-cycle", "value": "4.2s interval, 0.6s rise-in", "purpose": "Event strip cycling; rests on the first event under reduced motion." }
+    ],
+    "breakpoints": [
+      { "name": "compact", "value": "1100px" },
+      { "name": "lap", "value": "980px" },
+      { "name": "hand", "value": "640px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one filled action per region: Signal Purple with white text and a trailing arrow.",
+      "html": "<a class=\"ds-btn ds-btn-primary\" href=\"#\">Start a project <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></a>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 20px; border-radius: 5px; border: 1px solid transparent; font: 600 13.5px/1 var(--font-rethink, 'Rethink Sans', sans-serif); letter-spacing: -0.005em; text-decoration: none; white-space: nowrap; cursor: pointer; transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.25s ease; } .ds-btn svg { transition: translate 0.25s cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn:hover svg { translate: 3px 0; } .ds-btn-primary { background: #7b2ff7; color: #ffffff; } .ds-btn-primary:hover { background: #8c4bff; box-shadow: 0 8px 24px -10px rgb(123 47 247 / 0.32); } .ds-btn:focus-visible { outline: 2px solid #a87bff; outline-offset: 3px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action: transparent with a hairline border.",
+      "html": "<a class=\"ds-btn-ghost\" href=\"#\">See our work</a>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 20px; border-radius: 5px; border: 1px solid rgb(255 255 255 / 0.14); background: transparent; color: #ededef; font: 600 13.5px/1 var(--font-rethink, 'Rethink Sans', sans-serif); text-decoration: none; transition: background-color 0.18s ease, border-color 0.18s ease; } .ds-btn-ghost:hover { border-color: rgb(255 255 255 / 0.24); background: #17171d; } .ds-btn-ghost:focus-visible { outline: 2px solid #a87bff; outline-offset: 3px; }"
+    },
+    {
+      "name": "Site Header",
+      "kind": "nav",
+      "refersTo": "site-header",
+      "description": "Sticky 50px translucent header: wordmark, centred nav, small primary action.",
+      "html": "<header class=\"ds-header\"><a class=\"ds-wordmark\" href=\"#\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"3\"/><path d=\"M9 8v8M9 12l6-4M9 12l6 4\"/></svg>Kaisora</a><nav><ul class=\"ds-nav\"><li><a href=\"#\">Work</a></li><li><a href=\"#\">Services</a></li><li><a href=\"#\">Process</a></li><li><a href=\"#\">Founder</a></li></ul></nav><a class=\"ds-header-btn\" href=\"#\">Start a project</a></header>",
+      "css": ".ds-header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 50px; padding: 0 24px; border-bottom: 1px solid rgb(255 255 255 / 0.08); background: color-mix(in oklab, #0b0b0f 82%, transparent); backdrop-filter: saturate(140%) blur(12px); } .ds-wordmark { display: inline-flex; align-items: center; gap: 10px; color: #ededef; font-size: 19px; font-weight: 600; letter-spacing: -0.02em; text-decoration: none; } .ds-wordmark svg { color: #a87bff; } .ds-nav { display: flex; gap: 46px; margin: 0; padding: 0; list-style: none; } .ds-nav a { color: #a3a6ad; font-size: 13.5px; font-weight: 500; text-decoration: none; transition: color 0.15s ease; } .ds-nav a:hover { color: #ededef; } .ds-header-btn { justify-self: end; display: inline-flex; align-items: center; height: 34px; padding: 0 18px; border-radius: 5px; background: #7b2ff7; color: #fff; font-size: 13px; font-weight: 600; text-decoration: none; } .ds-header-btn:hover { background: #8c4bff; }"
+    },
+    {
+      "name": "Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Technology name in mono inside a hairline box.",
+      "html": "<ul class=\"ds-tags\"><li class=\"ds-tag\">Next.js</li><li class=\"ds-tag\">PostgreSQL</li><li class=\"ds-tag\">Redis</li></ul>",
+      "css": ".ds-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; } .ds-tag { padding: 4px 10px; border: 1px solid rgb(255 255 255 / 0.14); border-radius: 4px; font-family: var(--font-geist-mono, 'Geist Mono', monospace); font-size: 11.5px; color: #a3a6ad; }"
+    },
+    {
+      "name": "Service Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Panel card with a tint line icon, title and short description; hover lifts tone and border.",
+      "html": "<div class=\"ds-service\"><svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M3 9h18\"/></svg><div><h3>Web platforms</h3><p>Stores, portals and dashboards built to stay up.</p></div></div>",
+      "css": ".ds-service { display: grid; grid-template-columns: 28px 1fr; gap: 0 30px; align-items: start; min-height: 98px; padding: 23px 24px 17px 28px; border: 1px solid rgb(255 255 255 / 0.14); border-radius: 6px; background: #121217; transition: border-color 0.25s ease, background-color 0.25s ease; } .ds-service:hover { border-color: rgb(255 255 255 / 0.24); background: #17171d; } .ds-service svg { margin-top: 4px; color: #a87bff; } .ds-service h3 { margin: 0; font-size: 15.5px; font-weight: 600; letter-spacing: -0.01em; color: #ededef; } .ds-service p { margin: 7px 0 0; font-size: 12.5px; line-height: 1.4; color: #a3a6ad; }"
+    },
+    {
+      "name": "System Node",
+      "kind": "custom",
+      "refersTo": "node",
+      "description": "A service in the live architecture: line icon, sans label, mono sub-label.",
+      "html": "<div class=\"ds-node\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><ellipse cx=\"12\" cy=\"6\" rx=\"7\" ry=\"3\"/><path d=\"M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6\"/></svg><span><span class=\"ds-node-label\">PostgreSQL</span><span class=\"ds-node-sub\">primary db</span></span></div>",
+      "css": ".ds-node { display: inline-flex; align-items: center; gap: 12px; min-height: 62px; padding: 0 18px 0 16px; border: 1px solid rgb(255 255 255 / 0.14); border-radius: 6px; background: #121217; color: #ededef; transition: border-color 0.3s ease, background-color 0.3s ease; } .ds-node:hover { border-color: rgb(168 123 255 / 0.5); } .ds-node-label { display: block; font-size: 13.5px; font-weight: 500; line-height: 1.3; white-space: nowrap; } .ds-node-sub { display: block; font-family: var(--font-geist-mono, 'Geist Mono', monospace); font-size: 10.5px; line-height: 1.4; color: #8a8f98; white-space: nowrap; }"
+    },
+    {
+      "name": "Event Strip",
+      "kind": "custom",
+      "refersTo": "event-strip",
+      "description": "Foot of the live panel: mono tint events beside live dots, cycling every 4.2s.",
+      "html": "<div class=\"ds-strip\"><p><span class=\"ds-dot\"></span>order #1042 paid · WiPay</p><p><span class=\"ds-dot\"></span>receipt sent · Resend</p></div>",
+      "css": ".ds-strip { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 29px; padding: 0 14px; border: 1px solid rgb(255 255 255 / 0.08); border-radius: 5px; background: #0f0f14; font-family: var(--font-geist-mono, 'Geist Mono', monospace); font-size: 11px; color: #a87bff; } .ds-strip p { display: inline-flex; align-items: center; gap: 10px; margin: 0; white-space: nowrap; animation: ds-strip-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; } .ds-dot { width: 6px; height: 6px; border-radius: 50%; background: #a87bff; } @keyframes ds-strip-in { from { opacity: 0; translate: 0 4px; } } @media (prefers-reduced-motion: reduce) { .ds-strip p { animation: none; } }"
+    },
+    {
+      "name": "Live Path",
+      "kind": "custom",
+      "refersTo": "node",
+      "description": "Signature motion: a gradient pulse travelling a purple hairline between nodes; static under reduced motion.",
+      "html": "<div class=\"ds-path\"><span class=\"ds-path-pulse\"></span><span class=\"ds-path-node\">Edge</span><span class=\"ds-path-node\">App</span><span class=\"ds-path-node\">API</span></div>",
+      "css": ".ds-path { position: relative; display: flex; justify-content: space-between; padding: 12px 0; } .ds-path::before { content: ''; position: absolute; left: 8%; right: 8%; top: 50%; height: 1px; background: rgb(168 123 255 / 0.5); opacity: 0.6; } .ds-path-node { position: relative; z-index: 1; padding: 10px 16px; border: 1px solid rgb(255 255 255 / 0.14); border-radius: 6px; background: #121217; color: #ededef; font-size: 13.5px; font-weight: 500; } .ds-path-pulse { position: absolute; top: 50%; left: 8%; width: 36px; height: 2px; margin-top: -1px; border-radius: 2px; background: linear-gradient(90deg, transparent, #a87bff); animation: ds-travel 4.8s cubic-bezier(0.45, 0, 0.55, 1) infinite; } @keyframes ds-travel { 0% { left: 8%; opacity: 0; } 8% { opacity: 1; } 88% { opacity: 1; } 100% { left: calc(92% - 36px); opacity: 0; } } @media (prefers-reduced-motion: reduce) { .ds-path-pulse { display: none; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Running System",
+    "overview": "Kaisora's world is a dark developer-tool console: a near-black ground, charcoal panels drawn with 1px hairlines, an off-white grotesk, and one dark purple signal. Nothing is claimed that can't be shown; the brand's evidence is a real production architecture rendered as a live diagram, with requests visibly travelling through it. Every other surface (service cards, the featured project, case studies, the founder block) is built from the same panel-and-hairline material so the whole site reads as one instrument.\n\nDensity is calm and precise rather than packed. Sections are separated by generous vertical space (112px margin plus 96px padding over a single top hairline), panels carry their content with modest internal padding, and type is tight-tracked and heavy only at the top of the hierarchy. Dark is the home theme; light mode is the same system inverted through the same tokens, not a separate design.\n\nThe accent is rare and functional. Purple fills the one primary action per region and marks things that are live: path lines, pulses, junction dots, status text, step counters. Mono type appears only where the content is genuinely system data.",
+    "keyCharacteristics": [
+      "Near-black ground, charcoal panels, 1px translucent-white hairlines in three strengths.",
+      "One accent in two forms: a deep purple fill for primary actions and a light purple tint for live lines, dots and accent text.",
+      "Rethink Sans for every voice; Geist Mono only for real system data.",
+      "Flat surfaces separated by hairlines; one soft ambient shadow reserved for the live system panel.",
+      "Motion that represents work (pulses, an event feed), and stops entirely under reduced motion.",
+      "Dark default, light as an inversion, switched by `data-theme` on `<html>`."
+    ],
+    "rules": [
+      { "name": "The One Signal Rule", "body": "Purple is the only hue in the system. It marks a primary action or something live; it never decorates a heading, a background field or a body paragraph.", "section": "colors" },
+      { "name": "The Fill and Tint Rule", "body": "The deep purple is a fill (with white text); the light tint is a line, a dot or a short run of text. Never set tint text on a purple fill, and never use the deep purple as text on the dark ground.", "section": "colors" },
+      { "name": "The Inverted Twin Rule", "body": "Light mode is not designed separately. Any new token gets a value in both `html[data-theme]` blocks, or it does not ship.", "section": "colors" },
+      { "name": "The Real Data Rule", "body": "Mono is reserved for content a system would actually emit: service names and roles, environments, events, technology tags, ordinal counters. It is never used for section labels, decoration or \"techy\" flavour.", "section": "typography" },
+      { "name": "The No Kicker Rule", "body": "Headings stand alone. No eyebrow or kicker line above a title; provenance (project type, role) goes beneath the title in accent text.", "section": "typography" },
+      { "name": "The Hairline Rule", "body": "Containers are separated by 1px translucent borders and tonal steps. If a new card needs a shadow to read as a card, its border or tone is wrong.", "section": "elevation" }
+    ],
+    "dos": [
+      "**Do** fill exactly one primary action per region with Signal Purple and white text; everything else is ghost or text.",
+      "**Do** build every new container from Panel, a 1px `hairline-2` border and the 6px or 8px radius.",
+      "**Do** use the tint for live states, connectors and short accent text, and Signal Purple for that text in light mode.",
+      "**Do** set system data (service names, environments, events, tags, counters) in Geist Mono, and everything else in Rethink Sans.",
+      "**Do** open each section with a top hairline and the 112px/96px rhythm.",
+      "**Do** give every looping animation a resting state and stop it under `prefers-reduced-motion`.",
+      "**Do** define every new colour token in both theme blocks."
+    ],
+    "donts": [
+      "**Don't** introduce a second accent hue; the comp's aqua was replaced by purple and must not return.",
+      "**Don't** put an eyebrow or kicker above a heading.",
+      "**Don't** use mono for labels, headings or decoration.",
+      "**Don't** apply gradients to text, or use purple as a large background field; glows stay soft halos behind content.",
+      "**Don't** add shadows to cards; the panel-lift shadow belongs to the live system panel alone.",
+      "**Don't** fill sections with icon grids; icons are single-colour line glyphs inside nodes, services and buttons."
+    ]
+  }
+}
