@@ -9,8 +9,9 @@ import { ThemeToggle } from "./theme-toggle";
  * Start a project, then the footer bar. On every page, so the primary action
  * always lands somewhere. `#contact` is the target of every "Start a project".
  *
- * While no business email is configured (`CONTACT_EMAIL`), LinkedIn carries
- * the enquiry; the email button appears the moment the address is set.
+ * Email is the primary action and LinkedIn the secondary one. If
+ * `CONTACT_EMAIL` is ever unset, the email button disappears and LinkedIn
+ * becomes primary.
  */
 export function SiteFooter() {
   return (
@@ -64,6 +65,11 @@ export function SiteFooter() {
           © {new Date().getFullYear()} {SITE_NAME} · {STUDIO_LOCATION}
         </p>
         <div className="footer-tools">
+          {CONTACT_EMAIL !== null && (
+            <a href={`mailto:${CONTACT_EMAIL}`} aria-label={`Email ${CONTACT_EMAIL}`}>
+              <MailIcon />
+            </a>
+          )}
           <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)">
             <LinkedInIcon />
           </a>

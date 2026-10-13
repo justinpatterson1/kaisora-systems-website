@@ -34,7 +34,7 @@ Kaisora is an engineering-led studio, run by its founder, that builds systems me
 
 - Services (current list in `src/lib/content/services.ts`): Web Application Development, Backend Systems & APIs, Business Process Automation, Database Solutions, System Integration, Technical Consulting. Only what can be delivered today: no mobile apps, no security audits.
 - Next.js 16 App Router, statically prerendered, Tailwind CSS 4, light and dark themes.
-- Contact email is still `null` (`src/lib/content/contact.ts`). The UI must hide what it would drive rather than show placeholders.
+- Domain: kaisorasystems.com. Contact email: info@kaisorasystems.com (`src/lib/content/contact.ts`). Any value that is unset must hide the UI it drives rather than show a placeholder.
 
 ## Brand Commitments
 
@@ -43,7 +43,7 @@ Kaisora is an engineering-led studio, run by its founder, that builds systems me
 - The name "Justin Patterson" should stay findable in metadata.
 - Logo: the Pixel K mark with the KAISORA wordmark, from the owner-supplied brand sheet at brand/kaisora-pixel-k-sheet.png (supplied 2026-10-11). Brand colours are #7B2FF7, #0B0B0F and #FFFFFF.
 - **Visual standing preference (2026-10-10):** a modern, techy look. Dark theme by default, with light mode available. It should sit alongside Vercel/Linear, Raycast/Supabase and Railway/Resend, and their craft level is the bar. The brand accent is the logo purple #7B2FF7, set by the owner. Convention executed at full fidelity, with no smuggled quirk.
-- Primary homepage action: **start a project / enquire**. It leads to contact; the business email is still to be supplied.
+- Primary homepage action: **start a project / enquire**. It leads to contact, where email is the primary channel.
 
 ## Evidence on Hand
 

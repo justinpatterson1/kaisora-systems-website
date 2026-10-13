@@ -42,12 +42,9 @@ work, and the site labels it that way.
 
 | Variable | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Canonical origin for metadata, sitemap and robots. Falls back to Vercel's production URL, then localhost. |
+| `NEXT_PUBLIC_SITE_URL` | Optional override for the canonical origin used by metadata, sitemap and robots. Defaults to `https://kaisorasystems.com` (localhost under `next dev`). |
 
 Security headers (CSP, HSTS and friends) are set in `next.config.ts`.
 
-## Before launch
-
-- `CONTACT_EMAIL` in `src/lib/content/contact.ts`: the business email. It is
-  `null` until a real address exists. Meanwhile "Start a project" leads to
-  LinkedIn, and the email button appears as soon as the address is set.
+The business email (`info@kaisorasystems.com`) and every other link live in
+`src/lib/content/contact.ts`.
