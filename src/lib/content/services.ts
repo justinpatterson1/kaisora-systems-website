@@ -57,3 +57,9 @@ export const SERVICES: readonly Service[] = [
     icon: UsersIcon,
   },
 ] as const;
+
+/** The contact form's "What do you need?" options. */
+export const SERVICE_OPTIONS: readonly string[] = [
+  ...SERVICES.map((service) => service.title),
+  "Not sure yet",
+];

@@ -1222,6 +1222,175 @@ p {
   color: var(--accent-text);
 }
 
+.contact-grid-form {
+  grid-template-areas:
+    "intro form"
+    "aside form";
+  grid-template-rows: auto 1fr;
+  row-gap: 0;
+}
+
+.contact-intro {
+  grid-area: intro;
+}
+
+.contact-grid-form .contact-form {
+  grid-area: form;
+}
+
+.contact-aside {
+  grid-area: aside;
+}
+
+/* Beside the form, the brief drops its card and sits under the lede. */
+.brief-plain {
+  max-width: 30em;
+  margin-top: 36px;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+/* Contact form. Purple stays reserved for the submit button and the focus
+   ring (the One Signal Rule), so errors are marked with weight and a
+   full-strength border rather than a second hue. */
+.contact-form {
+  display: grid;
+  gap: 18px;
+  padding: 28px;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.field {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+.field label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fg-2);
+}
+
+.field-optional {
+  margin-left: 4px;
+  font: 400 11px/1 var(--font-mono);
+  color: var(--fg-3);
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 0 12px;
+  border: 1px solid var(--line-2);
+  border-radius: 5px;
+  background: var(--bg-raise);
+  color: var(--fg);
+  font: 400 14px/1.5 var(--font-sans);
+  transition:
+    border-color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.field input,
+.field select {
+  height: 40px;
+}
+
+.field textarea {
+  min-height: 140px;
+  padding: 10px 12px;
+  resize: vertical;
+}
+
+.field textarea::placeholder {
+  color: var(--fg-3);
+}
+
+.field input:hover,
+.field select:hover,
+.field textarea:hover {
+  border-color: var(--line-3);
+}
+
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible {
+  border-color: var(--accent-line);
+  background: var(--panel);
+  outline-offset: 1px;
+}
+
+.field [aria-invalid="true"] {
+  border-color: var(--fg);
+}
+
+.field-error {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.field-trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.contact-form-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+  margin-top: 4px;
+}
+
+.contact-form-footer .btn:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+.contact-form-status {
+  flex: 1 1 16em;
+  margin: 0;
+  font-size: 13px;
+  color: var(--fg);
+}
+
+.contact-form-status:empty {
+  display: none;
+}
+
+.contact-sent {
+  align-content: start;
+  color: var(--fg-2);
+}
+
+.contact-sent p {
+  margin: 0;
+}
+
+.contact-sent-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
 .site-footer {
   display: flex;
   align-items: center;
@@ -1705,6 +1874,11 @@ html[data-reveal-ready] [data-reveal] {
     gap: 36px;
   }
 
+  .contact-grid-form {
+    grid-template-areas: "intro" "form" "aside";
+    grid-template-rows: auto;
+  }
+
   .featured {
     padding: 28px;
   }
@@ -1739,6 +1913,21 @@ html[data-reveal-ready] [data-reveal] {
 @media (max-width: 640px) {
   .wrap {
     width: calc(100% - 32px);
+  }
+
+  .contact-form {
+    padding: 20px;
+  }
+
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* 16px stops iOS Safari zooming into a focused field. */
+  .field input,
+  .field select,
+  .field textarea {
+    font-size: 16px;
   }
 
   .site-header .btn {

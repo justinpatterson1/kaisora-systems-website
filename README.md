@@ -43,6 +43,8 @@ work, and the site labels it that way.
 | Variable | Purpose |
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Optional override for the canonical origin used by metadata, sitemap and robots. Defaults to `https://kaisorasystems.com` (localhost under `next dev`). |
+| `RESEND_API_KEY` | Sends contact-form enquiries to the business email through Resend. Without it the form is hidden and the email/LinkedIn buttons take its place. |
+| `CONTACT_FROM_EMAIL` | Optional sender override, e.g. `onboarding@resend.dev` until kaisorasystems.com is verified in Resend. Defaults to `website@kaisorasystems.com`. |
 
 Security headers (CSP, HSTS and friends) are set in `next.config.ts`.
 
