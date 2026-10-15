@@ -10,8 +10,8 @@ const isDev = process.env.NODE_ENV === "development";
  * hydration payload and the root layout's theme bootstrap are inline scripts,
  * and a nonce would force every page to render per request. Everything else
  * is locked to this origin — no third-party scripts, frames, fonts (next/font
- * self-hosts Poppins) or form targets. `'unsafe-eval'` is dev-only, for Fast
- * Refresh.
+ * self-hosts Rethink Sans and Geist Mono) or form targets. `'unsafe-eval'` is
+ * dev-only, for Fast Refresh.
  *
  * Adding an external service (analytics, an embed, a contact-form API) means
  * adding its origin to the matching directive here.
