@@ -15,6 +15,14 @@ export const SITE_DESCRIPTION =
 
 export const STUDIO_LOCATION = "Trinidad & Tobago";
 
+/** The short service line on the homepage's social preview image. */
+export const SOCIAL_CARD_SERVICES = [
+  "Web apps",
+  "Online stores",
+  "Backend & APIs",
+  "Automation",
+] as const;
+
 export const PERSON_NAME = "Justin Patterson";
 
 export const PERSON_TITLE = "Software Developer & Systems Analyst";

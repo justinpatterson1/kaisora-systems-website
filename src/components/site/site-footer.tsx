@@ -1,6 +1,6 @@
-import { ArrowIcon, GitHubIcon, LinkedInIcon, MailIcon } from "@/components/icons";
+import { ArrowIcon, GitHubIcon, LinkedInIcon, MailIcon, WhatsAppIcon } from "@/components/icons";
 import { Reveal } from "@/components/ui";
-import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/lib/content/contact";
+import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL, WHATSAPP_URL } from "@/lib/content/contact";
 import { SITE_NAME, STUDIO_LOCATION } from "@/lib/content/profile";
 
 import { ContactForm } from "./contact-form";
@@ -11,9 +11,10 @@ import { ThemeToggle } from "./theme-toggle";
  * always lands somewhere. `#contact` is the target of every "Start a project".
  *
  * The enquiry form is the primary action whenever it can send
- * (`RESEND_API_KEY` is set); email and LinkedIn sit beside it as ghost
- * buttons. Without the key the form is not rendered, and email (or, failing
- * that, LinkedIn) becomes the primary button.
+ * (`RESEND_API_KEY` is set); email, WhatsApp and LinkedIn sit beside it as
+ * ghost buttons. Without the key the form is not rendered, and email (or,
+ * failing that, LinkedIn) becomes the primary button. WhatsApp only appears
+ * once `WHATSAPP_NUMBER` is set.
  */
 export function SiteFooter() {
   const formEnabled = Boolean(process.env.RESEND_API_KEY) && CONTACT_EMAIL !== null;
@@ -52,6 +53,18 @@ export function SiteFooter() {
         >
           <MailIcon width={15} height={15} />
           {CONTACT_EMAIL}
+        </a>
+      )}
+      {WHATSAPP_URL !== null && (
+        <a
+          href={WHATSAPP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-ghost"
+        >
+          <WhatsAppIcon width={15} height={15} />
+          Chat on WhatsApp
+          <span className="sr-only"> (opens in a new tab)</span>
         </a>
       )}
       <a
@@ -100,6 +113,11 @@ export function SiteFooter() {
           {CONTACT_EMAIL !== null && (
             <a href={`mailto:${CONTACT_EMAIL}`} aria-label={`Email ${CONTACT_EMAIL}`}>
               <MailIcon />
+            </a>
+          )}
+          {WHATSAPP_URL !== null && (
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp (opens in a new tab)">
+              <WhatsAppIcon />
             </a>
           )}
           <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)">

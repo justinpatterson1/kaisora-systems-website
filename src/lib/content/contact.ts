@@ -5,6 +5,7 @@ import {
   InstagramIcon,
   LinkedInIcon,
   MailIcon,
+  WhatsAppIcon,
   type IconProps,
 } from "@/components/icons";
 
@@ -40,6 +41,27 @@ export const LINKEDIN_URL =
  */
 const INSTAGRAM_URL: string | null = null;
 
+/**
+ * The business WhatsApp number, from the `WHATSAPP_NUMBER` env var, in
+ * international format (`+1 868 555 0123`). Spaces, dashes and brackets are
+ * fine — only the digits reach the link. Unset or blank, no WhatsApp button,
+ * footer icon or schema telephone is rendered.
+ *
+ * Server-only: without a `NEXT_PUBLIC_` prefix this is `undefined` in client
+ * bundles, so read these two values from Server Components only.
+ */
+export const WHATSAPP_NUMBER: string | null =
+  process.env.WHATSAPP_NUMBER?.trim() || null;
+
+/** Pre-filled so the first message isn't a blank chat. */
+const WHATSAPP_GREETING =
+  "Hi Kaisora Systems, I'd like to talk about a project.";
+
+/** `https://wa.me/<digits>?text=…`, or `null` while the number is unset. */
+export const WHATSAPP_URL: string | null = WHATSAPP_NUMBER
+  ? `https://wa.me/${WHATSAPP_NUMBER.replace(/\D/g, "")}?text=${encodeURIComponent(WHATSAPP_GREETING)}`
+  : null;
+
 export type SocialLink = {
   label: string;
   href: string;
@@ -50,13 +72,22 @@ export type SocialLink = {
 
 type MaybeLink = Omit<SocialLink, "href"> & { href: string | null };
 
-/** Email, LinkedIn, GitHub — Prompt 19's priority order — then Instagram. */
+/**
+ * Email, then WhatsApp — the channel Caribbean SMB clients reach for first —
+ * then LinkedIn, GitHub (Prompt 19's order) and Instagram.
+ */
 const ALL_LINKS: readonly MaybeLink[] = [
   {
     label: "Email",
     href: CONTACT_EMAIL ? `mailto:${CONTACT_EMAIL}` : null,
     icon: MailIcon,
     external: false,
+  },
+  {
+    label: "WhatsApp",
+    href: WHATSAPP_URL,
+    icon: WhatsAppIcon,
+    external: true,
   },
   { label: "LinkedIn", href: LINKEDIN_URL, icon: LinkedInIcon, external: true },
   { label: "GitHub", href: GITHUB_URL, icon: GitHubIcon, external: true },

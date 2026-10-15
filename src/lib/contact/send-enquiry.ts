@@ -1,8 +1,11 @@
 "use server";
 
+import { after } from "next/server";
+
 import { CONTACT_EMAIL } from "@/lib/content/contact";
 import { SERVICE_OPTIONS } from "@/lib/content/services";
 
+import { confirmationEmail } from "./confirmation-email";
 import {
   ENQUIRY_FIELDS,
   MAX_LENGTH,
@@ -15,13 +18,18 @@ import {
 /**
  * The contact form's Server Action: validates the enquiry and emails it to
  * `CONTACT_EMAIL` through Resend's REST API, with Reply-To set to the visitor
- * so a reply from the inbox goes straight back to them.
+ * so a reply from the inbox goes straight back to them. Once that succeeds, a
+ * confirmation (`confirmation-email.ts`) goes to the visitor after the
+ * response is sent, so its failure never fails the submit.
  *
  * `RESEND_API_KEY` is required. `CONTACT_FROM_EMAIL` overrides the sender,
  * e.g. `onboarding@resend.dev` before kaisorasystems.com is verified in Resend.
  */
 
 const DEFAULT_FROM = "Kaisora Systems website <website@kaisorasystems.com>";
+
+/* The name the visitor sees in their inbox on the confirmation. */
+const CONFIRMATION_FROM = "Kaisora Systems <website@kaisorasystems.com>";
 
 /* Deliberately loose: the browser's `type="email"` does the strict check, and
    Resend rejects what isn't deliverable. */
@@ -54,6 +62,36 @@ export async function sendEnquiry(
     return failed(values);
   }
 
+  const delivered = await postToResend(apiKey, "enquiry", {
+    from: process.env.CONTACT_FROM_EMAIL || DEFAULT_FROM,
+    to: [CONTACT_EMAIL],
+    reply_to: values.email,
+    subject: `New enquiry from ${values.name}${values.company ? ` (${values.company})` : ""}`,
+    text: plainText(values),
+    html: html(values),
+  });
+  if (!delivered) return failed(values);
+
+  const replyTo = CONTACT_EMAIL;
+  const receivedAt = new Date();
+  after(() =>
+    postToResend(apiKey, "confirmation", {
+      from: process.env.CONTACT_FROM_EMAIL || CONFIRMATION_FROM,
+      to: [values.email],
+      reply_to: replyTo,
+      ...confirmationEmail({ name: values.name, service: values.service, receivedAt }),
+    }),
+  );
+
+  return { status: "sent" };
+}
+
+/** Sends one email through Resend; logs and returns false on any failure. */
+async function postToResend(
+  apiKey: string,
+  kind: "enquiry" | "confirmation",
+  email: Record<string, unknown>,
+): Promise<boolean> {
   try {
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -61,27 +99,19 @@ export async function sendEnquiry(
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        from: process.env.CONTACT_FROM_EMAIL || DEFAULT_FROM,
-        to: [CONTACT_EMAIL],
-        reply_to: values.email,
-        subject: `New enquiry from ${values.name}${values.company ? ` (${values.company})` : ""}`,
-        text: plainText(values),
-        html: html(values),
-      }),
+      body: JSON.stringify(email),
       signal: AbortSignal.timeout(10_000),
     });
 
     if (!response.ok) {
-      console.error(`Contact form: Resend responded ${response.status}`, await response.text());
-      return failed(values);
+      console.error(`Contact form (${kind}): Resend responded ${response.status}`, await response.text());
+      return false;
     }
+    return true;
   } catch (error) {
-    console.error("Contact form: request to Resend failed", error);
-    return failed(values);
+    console.error(`Contact form (${kind}): request to Resend failed`, error);
+    return false;
   }
-
-  return { status: "sent" };
 }
 
 function validate(values: EnquiryValues): Partial<Record<EnquiryField, string>> {

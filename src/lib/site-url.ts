@@ -1,5 +1,5 @@
 /** The production domain, confirmed by the owner 2026-10-12. */
-const PRODUCTION_URL = "https://kaisorasystems.com";
+export const PRODUCTION_URL = "https://kaisorasystems.com";
 
 /**
  * The site's canonical origin, for `metadataBase`, canonical URLs, the sitemap

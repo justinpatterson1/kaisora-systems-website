@@ -4,8 +4,8 @@ import { SITE_NAME } from "@/lib/content/profile";
 
 /** The Pixel K: a 5 × 5 grid, pitch 4, squares 3. Stem and arm in ink, the
     diagonal in brand purple (see brand/kaisora-pixel-k-sheet.png). */
-const INK = [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [1, 2]] as const;
-const SIGNAL = [[2, 2], [3, 1], [4, 0], [3, 3], [4, 4]] as const;
+export const INK = [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [1, 2]] as const;
+export const SIGNAL = [[2, 2], [3, 1], [4, 0], [3, 3], [4, 4]] as const;
 
 export function PixelK({ className }: { className?: string }) {
   return (

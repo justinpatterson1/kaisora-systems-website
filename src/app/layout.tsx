@@ -3,6 +3,7 @@ import { Geist_Mono, Rethink_Sans } from "next/font/google";
 
 import { RevealObserver } from "@/components/ui/reveal-observer";
 import { PERSON_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from "@/lib/content/profile";
+import { SITE_JSON_LD, serializeJsonLd } from "@/lib/seo/structured-data";
 import { SITE_URL } from "@/lib/site-url";
 import { DEFAULT_THEME, THEME_STORAGE_KEY } from "@/lib/theme/theme";
 import { ThemeProvider } from "@/lib/theme/theme-provider";
@@ -49,7 +50,7 @@ export const metadata: Metadata = {
     locale: "en_TT",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
   },
@@ -93,6 +94,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body>
         {/* A plain <script>: it must execute before the body content paints. */}
         <script id="theme-bootstrap" dangerouslySetInnerHTML={{ __html: bootstrap }} />
+        {/* Structured data for search engines: the studio, founder and site. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(SITE_JSON_LD) }}
+        />
         <a href="#main" className="skip-link">
           Skip to content
         </a>
