@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import { GitHubIcon, LinkedInIcon } from "@/components/icons";
 import { Reveal } from "@/components/ui";
 import { GITHUB_URL, LINKEDIN_URL } from "@/lib/content/contact";
@@ -9,7 +7,8 @@ import { PERSON_NAME, PERSON_TITLE } from "@/lib/content/profile";
 
 /**
  * The person behind the studio. Kaisora is founder-led, so who does the work
- * is part of the offer, but this is one section, not the site.
+ * is part of the offer, but this is one section, not the site. No photo until
+ * there is a proper headshot: the name and links hold the left column.
  */
 export function Founder() {
   const role = ROLES[0];
@@ -21,18 +20,35 @@ export function Founder() {
           Who builds it
         </h2>
         <Reveal className="founder">
-          <div className="founder-photo">
-            <Image
-              src="/images/about/justin.jpeg"
-              alt={`${PERSON_NAME}, founder of Kaisora Systems`}
-              fill
-              sizes="360px"
-            />
+          <div className="founder-id">
+            <p className="founder-name">{PERSON_NAME}</p>
+            <p className="founder-role">Founder · {PERSON_TITLE}</p>
+
+            <div className="founder-links">
+              <a
+                href={LINKEDIN_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost btn-sm"
+              >
+                <LinkedInIcon />
+                LinkedIn
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+              <a
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost btn-sm"
+              >
+                <GitHubIcon />
+                GitHub
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            </div>
           </div>
 
           <div className="founder-bio">
-            <p className="founder-name">{PERSON_NAME}</p>
-            <p className="founder-role">Founder · {PERSON_TITLE}</p>
             <p>
               Kaisora is led by Justin, a software developer and systems analyst
               with a background in IT, financial technology and business
@@ -87,29 +103,6 @@ export function Founder() {
                 </dd>
               </div>
             </dl>
-
-            <div className="founder-links">
-              <a
-                href={LINKEDIN_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-ghost btn-sm"
-              >
-                <LinkedInIcon />
-                LinkedIn
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-              <a
-                href={GITHUB_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-ghost btn-sm"
-              >
-                <GitHubIcon />
-                GitHub
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-            </div>
           </div>
         </Reveal>
       </div>

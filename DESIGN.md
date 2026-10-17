@@ -254,7 +254,7 @@ A monochrome charcoal ramp carrying a single purple signal, defined once as CSS 
 - **Display** (`display`): the homepage hero headline only, capped near 10.4em measure.
 - **Display Page** (`display-page`): case-study titles and the contact headline (contact uses line-height 1.02).
 - **Headline** (`headline`): section titles ("What we build", "Selected work").
-- **Title** (`title`): case-study section heads (24px), founder name (24px) and the featured project title (28px, same weight and tracking).
+- **Title** (`title`): case-study section heads (24px), the founder name (26–32px, one step under the section title) and the featured project title (28px, same weight and tracking).
 - **Title Small** (`title-sm`): card heads, service names, step heads (15–18px, 600).
 - **Body** (`body`): default copy; ledes in `ink-2` at 30–40em measure.
 - **Body Long** (`body-long`): case-study prose, 720px column max.
@@ -268,7 +268,7 @@ A monochrome charcoal ramp carrying a single purple signal, defined once as CSS 
 
 ## Layout
 
-A single centred column, `min(1192px, 100% - 48px)` wide (32px total gutter under 640px). Sections stack vertically, each opened by a full-width top hairline with 112px above and 96px below it (88px on phones); the contact block opens with 140px. Inside sections, grids carry the content: services in three columns, steps in four, the featured project as a 0.9/1.1 split, the founder as a 360px photo beside the bio, case studies as a 200px sticky contents rail beside a 720px reading column.
+A single centred column, `min(1192px, 100% - 48px)` wide (32px total gutter under 640px). Sections stack vertically, each opened by a full-width top hairline with 112px above and 96px below it (88px on phones); the contact block opens with 140px. Inside sections, grids carry the content: services in three columns, steps in four, the featured project as a 0.9/1.1 split, the founder as a 360px name column (name, role, links) beside the bio, case studies as a 200px sticky contents rail beside a 720px reading column.
 
 The sticky header is 50px, a three-column grid (wordmark, centred nav, action) over a translucent blurred ground.
 
@@ -288,7 +288,7 @@ The system is flat. Depth comes from tonal steps (ground, ground raise, panel, p
 
 ## Shapes
 
-Gently squared corners on a tight four-step scale: 4px for tags, environment chips and the focus ring; 5px for buttons, the theme toggle, the event strip and diagram chips; 6px for cards, nodes and screenshots; 8px for the large containers (system panel, featured project, founder photo, project brief). Circles are reserved for live dots and ticks. Borders are always 1px solid; the only dashed border marks a branch group in case-study architecture diagrams. Lines are geometric: straight hairlines and orthogonal SVG connectors with small rounded elbows.
+Gently squared corners on a tight four-step scale: 4px for tags, environment chips and the focus ring; 5px for buttons, the theme toggle, the event strip and diagram chips; 6px for cards, nodes and screenshots; 8px for the large containers (system panel, featured project, project brief). Circles are reserved for live dots and ticks. Borders are always 1px solid; the only dashed border marks a branch group in case-study architecture diagrams. Lines are geometric: straight hairlines and orthogonal SVG connectors with small rounded elbows.
 
 ## Components
 

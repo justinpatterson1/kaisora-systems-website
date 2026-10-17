@@ -1048,30 +1048,18 @@ p {
   margin-top: 32px;
 }
 
-.founder-photo {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  border: 1px solid var(--line-2);
-  border-radius: 8px;
-  background: var(--panel);
-}
-
-.founder-photo img {
-  object-fit: cover;
-  filter: saturate(0.9);
-}
-
-.founder-bio .founder-name {
+.founder-id .founder-name {
   color: var(--fg);
   margin: 0;
-  font-size: 24px;
+  font-size: clamp(1.625rem, 1.9vw, 2rem);
   font-weight: 700;
-  letter-spacing: -0.025em;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
 }
 
-.founder-bio .founder-role {
-  margin: 4px 0 0;
+.founder-id .founder-role {
+  margin: 10px 0 0;
   font-size: 14px;
   color: var(--accent-text);
 }
@@ -1080,6 +1068,10 @@ p {
   max-width: 38em;
   margin: 16px 0 0;
   color: var(--fg-2);
+}
+
+.founder-bio p:first-child {
+  margin-top: 0;
 }
 
 .facts {
@@ -1881,10 +1873,6 @@ html[data-reveal-ready] [data-reveal] {
 
   .featured {
     padding: 28px;
-  }
-
-  .founder-photo {
-    max-width: 360px;
   }
 
   .steps {

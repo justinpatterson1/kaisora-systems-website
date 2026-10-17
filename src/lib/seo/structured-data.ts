@@ -79,7 +79,6 @@ const founder = {
   "@id": PERSON_ID,
   name: PERSON_NAME,
   jobTitle: PERSON_TITLE,
-  image: `${PRODUCTION_URL}/images/about/justin.jpeg`,
   worksFor: { "@id": ORG_ID },
   sameAs: [LINKEDIN_URL, GITHUB_URL],
 };
