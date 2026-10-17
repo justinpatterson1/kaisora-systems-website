@@ -1,11 +1,10 @@
 "use server";
 
-import { after } from "next/server";
+import { checkBotId } from "botid/server";
 
 import { CONTACT_EMAIL } from "@/lib/content/contact";
 import { SERVICE_OPTIONS } from "@/lib/content/services";
 
-import { confirmationEmail } from "./confirmation-email";
 import {
   ENQUIRY_FIELDS,
   MAX_LENGTH,
@@ -18,18 +17,17 @@ import {
 /**
  * The contact form's Server Action: validates the enquiry and emails it to
  * `CONTACT_EMAIL` through Resend's REST API, with Reply-To set to the visitor
- * so a reply from the inbox goes straight back to them. Once that succeeds, a
- * confirmation (`confirmation-email.ts`) goes to the visitor after the
- * response is sent, so its failure never fails the submit.
+ * so a reply from the inbox goes straight back to them.
+ *
+ * Nothing is sent to the visitor: the form accepts any address, so an
+ * automatic confirmation would let anyone use it to email strangers. The
+ * on-page "sent" state is the acknowledgement.
  *
  * `RESEND_API_KEY` is required. `CONTACT_FROM_EMAIL` overrides the sender,
  * e.g. `onboarding@resend.dev` before kaisorasystems.com is verified in Resend.
  */
 
 const DEFAULT_FROM = "Kaisora Systems website <website@kaisorasystems.com>";
-
-/* The name the visitor sees in their inbox on the confirmation. */
-const CONFIRMATION_FROM = "Kaisora Systems <website@kaisorasystems.com>";
 
 /* Deliberately loose: the browser's `type="email"` does the strict check, and
    Resend rejects what isn't deliverable. */
@@ -45,6 +43,8 @@ export async function sendEnquiry(
 
   /* A bot filled the hidden field. Report success so it learns nothing. */
   if (String(formData.get(TRAP_FIELD) ?? "") !== "") return { status: "sent" };
+
+  if (await isBot()) return failed(values);
 
   const errors = validate(values);
   if (Object.keys(errors).length > 0) {
@@ -62,7 +62,7 @@ export async function sendEnquiry(
     return failed(values);
   }
 
-  const delivered = await postToResend(apiKey, "enquiry", {
+  const delivered = await postToResend(apiKey, {
     from: process.env.CONTACT_FROM_EMAIL || DEFAULT_FROM,
     to: [CONTACT_EMAIL],
     reply_to: values.email,
@@ -72,26 +72,29 @@ export async function sendEnquiry(
   });
   if (!delivered) return failed(values);
 
-  const replyTo = CONTACT_EMAIL;
-  const receivedAt = new Date();
-  after(() =>
-    postToResend(apiKey, "confirmation", {
-      from: process.env.CONTACT_FROM_EMAIL || CONFIRMATION_FROM,
-      to: [values.email],
-      reply_to: replyTo,
-      ...confirmationEmail({ name: values.name, service: values.service, receivedAt }),
-    }),
-  );
-
   return { status: "sent" };
 }
 
+/**
+ * Vercel BotID (`instrumentation-client.ts`); always human under `next dev`.
+ * Unlike the honeypot it can misjudge a person, so a bot verdict gets the
+ * failure message with the email address rather than a false "sent". If the
+ * check itself errors (no OIDC token off Vercel, service outage), the enquiry
+ * goes through: the only cost is spam to our own inbox, not a lost lead.
+ */
+async function isBot(): Promise<boolean> {
+  try {
+    const { isBot } = await checkBotId();
+    if (isBot) console.warn("Contact form: BotID classified the submission as a bot.");
+    return isBot;
+  } catch (error) {
+    console.error("Contact form: BotID check failed; accepting the enquiry", error);
+    return false;
+  }
+}
+
 /** Sends one email through Resend; logs and returns false on any failure. */
-async function postToResend(
-  apiKey: string,
-  kind: "enquiry" | "confirmation",
-  email: Record<string, unknown>,
-): Promise<boolean> {
+async function postToResend(apiKey: string, email: Record<string, unknown>): Promise<boolean> {
   try {
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -104,12 +107,12 @@ async function postToResend(
     });
 
     if (!response.ok) {
-      console.error(`Contact form (${kind}): Resend responded ${response.status}`, await response.text());
+      console.error(`Contact form: Resend responded ${response.status}`, await response.text());
       return false;
     }
     return true;
   } catch (error) {
-    console.error(`Contact form (${kind}): request to Resend failed`, error);
+    console.error("Contact form: request to Resend failed", error);
     return false;
   }
 }

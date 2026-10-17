@@ -1,3 +1,4 @@
+import { withBotId } from "botid/next/config";
 import type { NextConfig } from "next";
 
 const isDev = process.env.NODE_ENV === "development";
@@ -11,14 +12,16 @@ const isDev = process.env.NODE_ENV === "development";
  * and a nonce would force every page to render per request. Everything else
  * is locked to this origin — no third-party scripts, frames, fonts (next/font
  * self-hosts Rethink Sans and Geist Mono) or form targets. `'unsafe-eval'` is
- * dev-only, for Fast Refresh.
+ * dev-only, for Fast Refresh. Vercel Analytics is same-origin in production
+ * (`/_vercel/insights/*`); only its dev debug script comes from
+ * va.vercel-scripts.com.
  *
  * Adding an external service (analytics, an embed, a contact-form API) means
  * adding its origin to the matching directive here.
  */
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval' https://va.vercel-scripts.com" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' blob: data:",
   "font-src 'self'",
@@ -53,4 +56,7 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+/* BotID (contact-form bot check) proxies its challenge scripts through this
+   origin and adds its own frame headers on that path, overriding the
+   site-wide `DENY` there only. */
+export default withBotId(nextConfig);

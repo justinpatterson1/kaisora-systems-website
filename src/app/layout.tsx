@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Geist_Mono, Rethink_Sans } from "next/font/google";
 
@@ -104,6 +105,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </a>
         <ThemeProvider>{children}</ThemeProvider>
         <RevealObserver />
+        <Analytics />
       </body>
     </html>
   );
