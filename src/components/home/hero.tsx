@@ -13,7 +13,8 @@ export function Hero() {
       <div className="hero-bloom" aria-hidden />
       <div className="wrap">
         <h1 id="hero-title" className="hero-title">
-          Software that holds up in production.
+          Software that <span className="text-accent">holds</span> up in
+          production.
         </h1>
         <p className="hero-lede">
           Kaisora Systems designs and builds web <strong>applications</strong>,
