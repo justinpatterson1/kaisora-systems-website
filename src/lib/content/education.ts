@@ -1,6 +1,8 @@
 export type Credential = {
   title: string;
   detail: string;
+  /** Shown after the title, like a role's sector. Omit when the title names it. */
+  institution?: string;
 };
 
 /**
@@ -10,15 +12,18 @@ export type Credential = {
  * section renders them as visibly different things, so nothing unfinished can
  * read as earned.
  *
- * TODO(Justin): the university name and graduation year for the BSc, and the
- * exact official title of the IBM credential. Prompt 17 forbids inventing
- * either, so both are shown generically until supplied.
+ * The university and the IBM credential's title were confirmed by the owner
+ * 2026-10-17. TODO(Justin): the BSc graduation year, if it should be shown.
  */
 export const COMPLETED: readonly Credential[] = [
-  { title: "BSc in Computing", detail: "Undergraduate degree" },
   {
-    title: "IBM Backend Development",
-    detail: "Completed backend development training program",
+    title: "BSc in Computing",
+    detail: "Undergraduate degree",
+    institution: "University of the Southern Caribbean",
+  },
+  {
+    title: "IBM Backend Development Certificate",
+    detail: "Completed backend development certificate program",
   },
 ] as const;
 

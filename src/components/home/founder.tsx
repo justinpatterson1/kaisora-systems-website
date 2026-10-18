@@ -68,7 +68,10 @@ export function Founder() {
                 <dd>
                   <ul>
                     <li>
-                      {role.title} <span>· {role.sector}</span>
+                      {role.title}{" "}
+                      <span>
+                        · {role.sector} · {role.period}
+                      </span>
                     </li>
                   </ul>
                 </dd>
@@ -78,7 +81,10 @@ export function Founder() {
                 <dd>
                   <ul>
                     {COMPLETED.map((item) => (
-                      <li key={item.title}>{item.title}</li>
+                      <li key={item.title}>
+                        {item.title}
+                        {item.institution && <span> · {item.institution}</span>}
+                      </li>
                     ))}
                   </ul>
                 </dd>
