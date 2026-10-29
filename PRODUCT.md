@@ -48,6 +48,8 @@ Kaisora is an engineering-led studio, run by its founder, that builds systems me
 ## Evidence on Hand
 
 - **SherryBerries E-Commerce Platform**: a real, live, public project with a repository. Every claim has been checked against the code.
+- **Autistic Kids Connection**: a real, live website for a Curepe learning center (autistickidsconnect.com), built by Kaisora. Every claim has been checked against its code. It sits below SherryBerries as a secondary project.
+- Case studies link to the live site only, never to a project's repository (owner decision, 2026-10-28).
 - **Financial Data Automation, Market Pricing Automation, Revenue Processing Engine**: the founder's prior professional work, not Kaisora client work. Show them honestly as founder experience, and also as capability examples ("what we can build, based on this experience"). Never present them as Kaisora clients. Keep them generalized: no employer, vendor or system names, no figures.
 - Founder photo in `public/images/about/`.
 - **Absent, never fabricate:** testimonials, client logos, metrics or impact figures, pricing, team members beyond the founder, and completion dates for credentials.

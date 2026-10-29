@@ -829,6 +829,17 @@ p {
   background: var(--panel);
 }
 
+/* Secondary Kaisora projects: the same card, with the copy leading and a
+   smaller screenshot. */
+.featured-compact {
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  margin-top: 16px;
+}
+
+.featured.featured-compact h3 {
+  font-size: 24px;
+}
+
 .featured .featured-meta {
   display: flex;
   align-items: center;

@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { TagList } from "@/components/home/tag-list";
-import { ArrowIcon, ExternalIcon, GitHubIcon } from "@/components/icons";
+import { ArrowIcon, ExternalIcon } from "@/components/icons";
 import {
   CONFIDENTIALITY_NOTE,
   type CaseStudy,
@@ -31,8 +31,8 @@ type SectionId = (typeof SECTIONS)[number]["id"];
  * The case-study template. Every case study renders from its `CASE_STUDIES`
  * record, so adding a project is data, not layout.
  *
- * A public project is Kaisora's own work and gets its screenshot, live link
- * and repository. A proprietary one is the founder's prior professional work:
+ * A public project is Kaisora's own work and gets its screenshot and live
+ * link — never its repository. A proprietary one is the founder's prior professional work:
  * it says so, carries the confidentiality notice, and never links to code.
  */
 export function CaseStudyView({ study }: { study: CaseStudy }) {
@@ -73,32 +73,18 @@ export function CaseStudyView({ study }: { study: CaseStudy }) {
           <TagList tags={study.tags} />
 
           {isPublic ? (
-            (study.liveUrl || study.repoUrl) && (
+            study.liveUrl && (
               <div className="cs-actions">
-                {study.liveUrl && (
-                  <a
-                    href={study.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-primary"
-                  >
-                    Visit the website
-                    <ExternalIcon width={13} height={13} />
-                    <span className="sr-only"> (opens in a new tab)</span>
-                  </a>
-                )}
-                {study.repoUrl && (
-                  <a
-                    href={study.repoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-ghost"
-                  >
-                    <GitHubIcon width={14} height={14} />
-                    View source
-                    <span className="sr-only"> on GitHub (opens in a new tab)</span>
-                  </a>
-                )}
+                <a
+                  href={study.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-primary"
+                >
+                  Visit the website
+                  <ExternalIcon width={13} height={13} />
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
               </div>
             )
           ) : (

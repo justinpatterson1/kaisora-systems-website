@@ -8,12 +8,15 @@ import { CASE_STUDIES, caseStudyHref } from "@/lib/content/case-studies";
 import { TagList } from "./tag-list";
 
 /**
- * Selected work. SherryBerries is Kaisora's own build and leads. The
- * proprietary case studies are the founder's prior professional work, shown
- * honestly as that, and as the kind of system Kaisora builds from it.
+ * Selected work. Kaisora's own builds lead: the first public case study is
+ * featured and the rest follow as compact cards. The proprietary case studies
+ * are the founder's prior professional work, shown honestly as that, and as
+ * the kind of system Kaisora builds from it.
  */
 export function Work() {
-  const featured = CASE_STUDIES.find((study) => study.kind === "public");
+  const [featured, ...secondary] = CASE_STUDIES.filter(
+    (study) => study.kind === "public",
+  );
   const experience = CASE_STUDIES.filter((study) => study.kind === "proprietary");
 
   return (
@@ -23,8 +26,8 @@ export function Work() {
           Selected work
         </h2>
         <p className="section-lede">
-          Every project gets a full write-up: the problem, the architecture,
-          the decisions, and what was done to keep it running.
+          Explore live projects and case studies of the systems and decisions
+          behind the work.
         </p>
 
         {featured && (
@@ -74,6 +77,54 @@ export function Work() {
             )}
           </Reveal>
         )}
+
+        {secondary.map((study) => (
+          <Reveal key={study.slug} className="featured featured-compact">
+            <div>
+              <h3>{study.title}</h3>
+              <p className="featured-meta">
+                <span className="live-dot" aria-hidden />
+                Kaisora project · {study.label}
+              </p>
+              <p>{study.summary}</p>
+              <TagList tags={study.tags.slice(0, 5)} />
+              <div className="featured-actions">
+                <Link href={caseStudyHref(study)} className="btn btn-primary">
+                  Read the case study
+                  <ArrowIcon width={14} height={14} />
+                </Link>
+                {study.liveUrl && (
+                  <a
+                    href={study.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-ghost"
+                  >
+                    Visit the website
+                    <ExternalIcon width={13} height={13} />
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                )}
+              </div>
+            </div>
+            {study.image && (
+              <div className="shot">
+                <div className="shot-bar" aria-hidden>
+                  <span />
+                  <span />
+                  <span />
+                </div>
+                <Image
+                  src={study.image.src}
+                  width={study.image.width}
+                  height={study.image.height}
+                  alt={study.image.alt}
+                  sizes="(max-width: 980px) 100vw, 500px"
+                />
+              </div>
+            )}
+          </Reveal>
+        ))}
 
         <div className="experience-head">
           <div>

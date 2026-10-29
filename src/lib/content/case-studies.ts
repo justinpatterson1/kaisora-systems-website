@@ -12,7 +12,9 @@
  *   SherryBerries claim below was checked against the repository
  *   (github.com/justinpatterson1/SherryBerriesWebsite) on 2026-09-26 — and
  *   things it does *not* do (restocking on admin cancellation, JSON-LD) are
- *   left out on purpose.
+ *   left out on purpose. Autistic Kids Connection was checked the same way
+ *   against its repository (justinpatterson1/autisticKidsConnection) on
+ *   2026-10-28. Neither page links to its repository.
  * - `proprietary` projects are professional work, deliberately generalized:
  *   no employer, server or database names, vendors, formulas, figures or code,
  *   and never a repository link. Their wording stays close to the capability
@@ -64,7 +66,6 @@ export type CaseStudy = {
    */
   socialImage?: string;
   liveUrl?: string;
-  repoUrl?: string;
 
   /* The nine sections of Prompt 14, in order. */
   overview: readonly string[];
@@ -109,7 +110,6 @@ export const CASE_STUDIES: readonly CaseStudy[] = [
     },
     socialImage: "/images/work/sherryberries-og.jpg",
     liveUrl: "https://shopsherryberries.com",
-    repoUrl: "https://github.com/justinpatterson1/SherryBerriesWebsite",
 
     overview: [
       "SherryBerries sells body jewelry, piercing aftercare and accessories in Trinidad & Tobago. The platform is the business’s complete online store: a customer-facing storefront, a checkout that handles local payment and delivery options, and an admin dashboard for running the shop day to day.",
@@ -240,6 +240,128 @@ export const CASE_STUDIES: readonly CaseStudy[] = [
       "Upstash Redis",
       "Sentry",
       "Vitest",
+      "Vercel",
+    ],
+  },
+
+  {
+    slug: "autistic-kids-connection",
+    title: "Autistic Kids Connection",
+    kind: "public",
+    label: "Community website · Live",
+    summary:
+      "A website for a Curepe learning center offering homeschooling, tutoring and developmental support for children ages 2–12, built to answer a parent’s questions quickly and turn them into a registration enquiry.",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Resend", "Vercel"],
+    metaDescription:
+      "How the Autistic Kids Connection website was built: a prerendered Next.js page, an accessible enquiry form sent through Resend, and honest handling of missing content.",
+    image: {
+      src: "/images/work/akc-home.webp",
+      width: 1920,
+      height: 938,
+      alt: "The Autistic Kids Connection homepage: the headline “Understanding Differences. Building Confidence. Creating Possibilities.” over a photo of children playing with a rope, with Register Now and Programs & Fees buttons and the school hours, early drop-off time and address below.",
+    },
+    socialImage: "/images/work/akc-og.jpg",
+    liveUrl: "https://autistickidsconnect.com",
+
+    overview: [
+      "Autistic Kids Connection (AKC) is a small school in Curepe, Trinidad & Tobago, offering homeschooling, tutoring and developmental support for children with autism and other developmental or learning differences.",
+      "Kaisora designed and built it end to end: information architecture, content structure, visual design, the enquiry form and its email, search metadata and deployment.",
+    ],
+    problem: [
+      "Parents arriving at the site are often anxious and comparing options. They need to find out quickly whether AKC fits their child, how it teaches, what a day looks like, what it costs and how to get in touch — on a phone, more often than not.",
+      "The school needed enquiries to reach its inbox in a form it could act on straight away, without running any software of its own. Parts of the content, such as staff bios and testimonials, did not exist yet and could not be invented.",
+    ],
+    solution: {
+      intro:
+        "A single prerendered Next.js page whose sections follow the order of a parent’s questions, ending on a registration enquiry form.",
+      points: [
+        "Sections ordered from fit and approach through the school day, fees and policies to the enquiry, so payment rules are read before a family commits.",
+        "All copy, prices, hours and policies held as typed constants, separate from layout, so a content change is a one-line edit.",
+        "A registration enquiry form that sends to the school’s inbox through Resend, from a Next.js Server Action.",
+        "A branded HTML enquiry email with a plain-text fallback. Replying goes straight to the parent, and Email and Call buttons appear for whichever contact details they left.",
+        "“Not sure which package fits?” links that jump to the form and pre-select the package.",
+        "A sticky mobile bar with Menu, Call and Register that appears once the hero’s own buttons scroll away and steps aside inside the contact section.",
+        "A privacy policy page, plus search metadata, a sitemap and schema.org structured data describing the school.",
+      ],
+    },
+    architecture: {
+      flow: [
+        { label: "Parent", detail: "Browser, on a phone or a computer" },
+        { label: "Next.js page", detail: "Prerendered at build time, served from Vercel" },
+        { label: "Server Action", detail: "Validates the enquiry and filters bots" },
+        { label: "Resend", detail: "Delivers the HTML and plain-text email" },
+        { label: "School inbox", detail: "Reply goes straight back to the parent" },
+      ],
+      caption:
+        "Simplified. The page itself is static; the enquiry Server Action is the only part that runs per request, and the only part that talks to a third-party service.",
+    },
+    decisions: [
+      {
+        title: "Static content, no CMS or database",
+        body: "Copy lives as typed constants in the repository and the page is prerendered, so there is nothing for the school to host, patch or back up, and the page is served from cache.",
+      },
+      {
+        title: "One set of validation rules for client and server",
+        body: "The same module validates the form in the browser, for instant feedback, and again in the Server Action, which never trusts the client. A parent must give a name plus a phone number or an email address.",
+      },
+      {
+        title: "Missing content is hidden, not faked",
+        body: "Meet the team and Testimonials stay hidden in production until real content exists. A single environment flag shows them as clearly marked placeholders in previews.",
+      },
+      {
+        title: "Progressive enhancement",
+        body: "The form posts through a Server Action, and the package-prompt links are ordinary anchors to the form, so the jump still works if the pre-selection script can’t run.",
+      },
+    ],
+    challenges: [
+      {
+        title: "Spam without a CAPTCHA",
+        body: "A hidden honeypot field catches bots that fill every input and gives them a silent success. Its name is deliberately meaningless, because a name like “company” can be autofilled by a browser and would silently drop a real parent’s enquiry.",
+      },
+      {
+        title: "Untrusted input in an email",
+        body: "Everything a parent types is escaped before it goes into the HTML email, line breaks and control characters are collapsed out of the subject line, and every field is trimmed and length-capped on the server.",
+      },
+      {
+        title: "Email clients that ignore CSS",
+        body: "The enquiry email repeats the site’s colours as inline styles on table-based markup, carries the site’s brand stripe, and falls back to plain text, so it reads the same in Gmail, Outlook and Apple Mail.",
+      },
+      {
+        title: "Keeping the next step in reach on mobile",
+        body: "IntersectionObservers show the sticky bar only when the hero’s buttons are off screen and hide it inside the contact section, so Register never appears twice and the bar never covers the form.",
+      },
+    ],
+    reliability: [
+      {
+        title: "Accessibility",
+        body: "WCAG 2.2 AA is the baseline: 44px touch targets, labelled fields with linked error messages, focus moved to the first invalid field on error and to the confirmation on success, and menus that trap focus and close on Escape.",
+      },
+      {
+        title: "Privacy",
+        body: "Server logs record only that an enquiry failed and why, never the family’s details. A plain-language privacy policy explains what the form collects and who handles it.",
+      },
+      {
+        title: "Failure handling",
+        body: "If the email service is unreachable or not configured, the parent sees an error state with the school’s phone and email, rather than a false confirmation.",
+      },
+      {
+        title: "Search and sharing",
+        body: "Canonical URLs, Open Graph and Twitter metadata, a generated social preview image, a sitemap, and EducationalOrganization structured data with the school’s address and opening hours.",
+      },
+    ],
+    impact: [
+      "The site is live at autistickidsconnect.com, with the registration enquiry as the page’s main call to action.",
+      "Enquiries arrive in the school’s inbox as readable emails that can be answered directly.",
+      "Fees, hours and policies each live in one place, so changing them is a single edit, with no system for the school to maintain.",
+    ],
+    technologies: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Server Actions",
+      "Resend",
+      "Vercel Analytics",
       "Vercel",
     ],
   },
