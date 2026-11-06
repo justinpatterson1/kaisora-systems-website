@@ -20,7 +20,7 @@ export function Work() {
   const experience = CASE_STUDIES.filter((study) => study.kind === "proprietary");
 
   return (
-    <section id="work" className="section" aria-labelledby="work-title">
+    <section id="work" className="section section-first" aria-labelledby="work-title">
       <div className="wrap">
         <h2 id="work-title" className="section-title">
           Selected work

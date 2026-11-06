@@ -302,7 +302,7 @@ Compact, quiet and decisive.
 
 ### Chips (Tags)
 - **Style:** transparent, 1px `hairline-2` border, 4px radius, Geist Mono 11.5px in `ink-2`. Technology names only.
-- **State:** static; no selected or filter variants exist.
+- **State:** static; no selected or filter variants exist. Filters are text buttons (below), not chips.
 
 ### Cards / Containers
 - **Corner Style:** 6px (cards, services, nodes), 8px (large panels).
@@ -322,6 +322,17 @@ Four columns, each topped by a `signal-line` rail with a glowing tint dot at its
 
 ### Live System Panel (signature)
 The SherryBerries production architecture as a working figure. An 8px Panel with the panel-lift shadow; a 44px head with the system name in mono beside a pulsing live dot and a "Live system" status with a mono environment chip. Body: five nodes on one `signal-line` hairline with ticks midway, two 36px gradient pulses travelling the path every 4.8s, and six branch services fed by orthogonal SVG connectors whose dash pulses (7/93 dash, 3.6s, staggered 0.55s) flow down from the API node. Nodes are 62px tall, 6px radius, a line icon plus a sans label and mono sub-label. The foot is the event strip: a 29px Ground Raise bar of mono tint text that cycles real event pairs every 4.2s with a 0.6s rise-in. The structure is real lists for screen readers; links and pulses are hidden from assistive tech. Under reduced motion every loop stops, pulses are removed and the strip rests on its first event. Below 980px the graph goes vertical with connectors and pulses hidden.
+
+### Offers grid
+The four named offers as a 2 × 2 grid of 6px Panels, every card in the same order: name with the engagement type in tint opposite, who it's for, typical scope as a two-column list marked by small `signal-line` squares, then a hairline foot holding the evidence link and a ghost button. Custom work spans the full width beneath on a transparent ground. No prices, no "most popular". One column under 720px.
+
+### Feature catalogue and system draft
+The "Build your system" pattern, deliberately unlike a pricing-catalogue grid. Left: the features as hairline-divided rows grouped by layer (Commerce, Operations, Data and automation, Integrations), each a checkbox, a title (tint when picked), a description and a "Needs:" line, with a search field and plain text-button layer filters underlined in tint when active. Right: a sticky 8px Panel, the static sibling of the live system panel, headed `your-system` in mono with a live dot once anything is picked. Each picked feature becomes a node on a `signal-line` trunk, grouped under its layer's id in mono, with its needs hanging off it in mono after a tint "needs →". The foot says the picks are interests, not a quote, and holds "Discuss selected features". Below 980px the draft follows the list and a "View your system" link appears in the status line; nothing is fixed to the viewport.
+
+### Lit grid (scroll beam)
+The hero's 64px grid runs behind the whole page but is only ever seen where light falls on it, as in the hero; the light is the live panel's pulse. A dark 1px `hairline-2` line in the left gutter (40px outside the column, never closer than 8px to the screen edge) joins the sections from Selected work to Start a project, with a 7px junction at each section top. When the scroll brings a section's top to 60% of the viewport, a pulse (the live panel's gradient streak with a tint head) travels from the previous junction to its one in 750ms ease-out-expo, lighting that stretch of line in `signal-line` and carrying a 320px light that reveals the grid in `grid-ink-lit` as it goes. On arrival the junction lights and rings once, the section's top hairline sweeps from the beam across the page (tint to transparent, 1.1s), and a bloom of lit grid with a soft `signal-glow` centre opens around the junction. Only the section being read keeps its bloom; the one left behind fades over 1.6s. Jumping several sections lights the skipped junctions at once and sends one pulse to the last; scrolling back retracts everything past the reading point. Decorative and hidden from assistive tech; absent without JavaScript; under reduced motion nothing travels and junctions, sweeps and blooms simply switch on. Source: `src/components/home/scroll-beam.tsx`, with the timing rules in `src/lib/beam/`.
+
+**The Lit Grid Rule.** The grid is never printed across the page at rest. It appears only inside light: the hero bloom, the travelling pulse and the reading section's bloom.
 
 ### Architecture diagram (case studies)
 The static sibling of the live panel: a vertical stack of 6px nodes joined by short `signal-line` connectors, an anchor node outlined in `signal-line`, and dashed branch groups holding 5px chips.

@@ -190,6 +190,26 @@ export function ArrowIcon(p: IconProps) {
   );
 }
 
+/** Removes an item: the feature and interest chips. */
+export function CloseIcon(p: IconProps) {
+  return (
+    <svg {...STROKE} strokeWidth={2} {...p}>
+      <path d="M6 6l12 12" />
+      <path d="M18 6 6 18" />
+    </svg>
+  );
+}
+
+/** Opens a disclosure; turned 45° it reads as close. The FAQ uses it. */
+export function PlusIcon(p: IconProps) {
+  return (
+    <svg {...STROKE} strokeWidth={2} {...p}>
+      <path d="M12 5v14" />
+      <path d="M5 12h14" />
+    </svg>
+  );
+}
+
 export function DownloadIcon(p: IconProps) {
   return (
     <svg {...STROKE} strokeWidth={2} {...p}>

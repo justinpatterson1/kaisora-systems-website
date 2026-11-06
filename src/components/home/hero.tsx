@@ -17,10 +17,9 @@ export function Hero() {
           production.
         </h1>
         <p className="hero-lede">
-          Kaisora Systems designs and builds web <strong>applications</strong>,
-          online stores, backend systems and automation for{" "}
-          <strong>Caribbean</strong> businesses, established companies and
-          founders.
+          Websites, online stores and business systems for{" "}
+          <strong>Caribbean</strong> businesses. We connect your tools, reduce
+          repetitive work and build software around how your business runs.
         </p>
         <div className="hero-actions">
           <a href={START_PROJECT_HREF} className="btn btn-primary">

@@ -2,6 +2,7 @@ import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Geist_Mono, Rethink_Sans } from "next/font/google";
 
+import { InterestProvider } from "@/components/interests/interest-provider";
 import { RevealObserver } from "@/components/ui/reveal-observer";
 import { PERSON_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from "@/lib/content/profile";
 import { SITE_JSON_LD, serializeJsonLd } from "@/lib/seo/structured-data";
@@ -103,7 +104,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <InterestProvider>{children}</InterestProvider>
+        </ThemeProvider>
         <RevealObserver />
         <Analytics />
       </body>

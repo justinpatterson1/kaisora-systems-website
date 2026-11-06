@@ -11,7 +11,7 @@ export const SITE_NAME = "Kaisora Systems";
 export const SITE_TAGLINE = "Software that holds up in production";
 
 export const SITE_DESCRIPTION =
-  "Kaisora Systems is a software studio in Trinidad & Tobago that designs and builds web applications, online stores, backend systems and business automation for Caribbean businesses, established companies and founders.";
+  "Kaisora Systems is a software studio in Trinidad & Tobago that builds websites, online stores, business automation and custom business systems for Caribbean businesses, connecting their tools and reducing manual work.";
 
 export const STUDIO_LOCATION = "Trinidad & Tobago";
 

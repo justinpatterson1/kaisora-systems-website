@@ -5,6 +5,7 @@ import { checkBotId } from "botid/server";
 import { CONTACT_EMAIL } from "@/lib/content/contact";
 import { SERVICE_OPTIONS } from "@/lib/content/services";
 
+import { composeEnquiryEmail } from "./compose-email";
 import {
   ENQUIRY_FIELDS,
   MAX_LENGTH,
@@ -13,11 +14,16 @@ import {
   type EnquiryState,
   type EnquiryValues,
 } from "./enquiry";
+import { FEATURE_FIELD, OFFER_FIELD, parseInterests } from "./interest-ids";
 
 /**
  * The contact form's Server Action: validates the enquiry and emails it to
  * `CONTACT_EMAIL` through Resend's REST API, with Reply-To set to the visitor
  * so a reply from the inbox goes straight back to them.
+ *
+ * Selected offers and features arrive as catalogue IDs (`offer`, `feature`),
+ * are checked against the published catalogue, and are named in the email.
+ * An unknown ID rejects the submission: the form itself can't produce one.
  *
  * Nothing is sent to the visitor: the form accepts any address, so an
  * automatic confirmation would let anyone use it to email strangers. The
@@ -56,19 +62,31 @@ export async function sendEnquiry(
     };
   }
 
+  const interests = parseInterests(formData.getAll(OFFER_FIELD), formData.getAll(FEATURE_FIELD));
+  if (!interests.ok) {
+    return {
+      status: "invalid",
+      message:
+        "Some of the selected offers or features weren't recognised. Remove them and try again.",
+      errors: {},
+      values,
+    };
+  }
+
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey || !CONTACT_EMAIL) {
     console.error("Contact form: RESEND_API_KEY or CONTACT_EMAIL is not set.");
     return failed(values);
   }
 
+  const email = composeEnquiryEmail(values, interests);
   const delivered = await postToResend(apiKey, {
     from: process.env.CONTACT_FROM_EMAIL || DEFAULT_FROM,
     to: [CONTACT_EMAIL],
     reply_to: values.email,
-    subject: `New enquiry from ${values.name}${values.company ? ` (${values.company})` : ""}`,
-    text: plainText(values),
-    html: html(values),
+    subject: email.subject,
+    text: email.text,
+    html: email.html,
   });
   if (!delivered) return failed(values);
 
@@ -107,12 +125,16 @@ async function postToResend(apiKey: string, email: Record<string, unknown>): Pro
     });
 
     if (!response.ok) {
-      console.error(`Contact form: Resend responded ${response.status}`, await response.text());
+      /* Status only: the body can echo the enquiry's addresses. */
+      console.error(`Contact form: Resend responded ${response.status}`);
       return false;
     }
     return true;
   } catch (error) {
-    console.error("Contact form: request to Resend failed", error);
+    console.error(
+      "Contact form: request to Resend failed",
+      error instanceof Error ? error.name : "unknown error",
+    );
     return false;
   }
 }
@@ -147,44 +169,4 @@ function failed(values: EnquiryValues): EnquiryState {
     errors: {},
     values,
   };
-}
-
-const LABELS: Record<EnquiryField, string> = {
-  name: "Name",
-  email: "Email",
-  company: "Company",
-  service: "Interested in",
-  message: "Message",
-};
-
-function plainText(values: EnquiryValues): string {
-  const details = ENQUIRY_FIELDS.filter((field) => field !== "message" && values[field])
-    .map((field) => `${LABELS[field]}: ${values[field]}`)
-    .join("\n");
-
-  return `${details}\n\n${values.message}\n\n— Sent from the kaisorasystems.com contact form. Reply to this email to answer ${values.name}.`;
-}
-
-function html(values: EnquiryValues): string {
-  const rows = ENQUIRY_FIELDS.filter((field) => field !== "message" && values[field])
-    .map(
-      (field) =>
-        `<tr><td style="padding:4px 16px 4px 0;color:#60646c">${LABELS[field]}</td><td style="padding:4px 0">${escapeHtml(values[field])}</td></tr>`,
-    )
-    .join("");
-
-  return `<div style="font-family:system-ui,sans-serif;font-size:15px;line-height:1.6;color:#0b0b0d">
-<table style="border-collapse:collapse;font-size:14px">${rows}</table>
-<p style="white-space:pre-wrap;margin:20px 0">${escapeHtml(values.message)}</p>
-<p style="font-size:12px;color:#60646c">Sent from the kaisorasystems.com contact form. Reply to this email to answer ${escapeHtml(values.name)}.</p>
-</div>`;
-}
-
-function escapeHtml(value: string): string {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
 }

@@ -15,7 +15,11 @@ npm install
 npm run dev     # http://localhost:3000
 npm run build   # production build
 npm run lint
+npm test        # Vitest: catalogue filtering, selection, enquiry validation, form journeys
 ```
+
+Tests never send email: Resend is a stubbed `fetch`, and the form's Server
+Action is mocked in the component tests.
 
 ## Where things live
 
@@ -26,6 +30,8 @@ npm run lint
 | `src/components/site/` | Header, wordmark, contact + footer, theme toggle (shared by every page) |
 | `src/components/work/` | The case-study template and architecture diagram |
 | `src/components/ui/` | Scroll reveal |
+| `src/components/interests/` | The visitor's offer, service and feature picks, shared by the cards, the feature catalogue and the enquiry form |
+| `src/lib/content/catalogue.ts` | Solutions, offers, the feature catalogue, support coverage and FAQs. Its IDs are also the enquiry form's allowlist |
 | `src/lib/content/` | **All site copy and links.** Edit here, not in the markup |
 | `src/lib/content/system.ts` | The nodes, services and events in the homepage system panel |
 | `src/lib/theme/` | Dark (default) / light theme |
@@ -45,6 +51,12 @@ work, and the site labels it that way.
 | `NEXT_PUBLIC_SITE_URL` | Optional override for the canonical origin used by metadata, sitemap and robots. Defaults to `https://kaisorasystems.com` (localhost under `next dev`). |
 | `RESEND_API_KEY` | Sends contact-form enquiries to the business email through Resend. Without it the form is hidden and the email/LinkedIn buttons take its place. |
 | `CONTACT_FROM_EMAIL` | Optional sender override, e.g. `onboarding@resend.dev` until kaisorasystems.com is verified in Resend. Defaults to `website@kaisorasystems.com`. |
+
+Enquiries carry the visitor's selected offers and features as catalogue IDs.
+The Server Action rejects any ID that isn't in `catalogue.ts` and names the
+selections in the notification email. Vercel Analytics receives
+`offer_interest`, `feature_interest` and `enquiry_success` events with IDs and
+counts only; custom events are recorded only on plans that support them.
 
 Security headers (CSP, HSTS and friends) are set in `next.config.ts`.
 

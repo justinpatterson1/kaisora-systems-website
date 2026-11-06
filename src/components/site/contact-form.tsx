@@ -1,21 +1,53 @@
 "use client";
 
-import { useActionState } from "react";
+import { track } from "@vercel/analytics";
+import { useActionState, useCallback } from "react";
 
 import { ArrowIcon } from "@/components/icons";
+import { useInterests } from "@/components/interests/interest-provider";
 import { MAX_LENGTH, TRAP_FIELD, type EnquiryField, type EnquiryState } from "@/lib/contact/enquiry";
+import { FEATURE_FIELD, OFFER_FIELD } from "@/lib/contact/interest-ids";
 import { sendEnquiry } from "@/lib/contact/send-enquiry";
 import { CONTACT_EMAIL } from "@/lib/content/contact";
 import { SERVICE_OPTIONS } from "@/lib/content/services";
+
+import { AttachedInterests } from "./attached-interests";
 
 const INITIAL_STATE: EnquiryState = { status: "idle" };
 
 /**
  * The enquiry form in the contact section. Validated in the browser for speed
  * and again in `sendEnquiry`, which is the check that counts.
+ *
+ * Offers and features picked elsewhere on the page come from the interest
+ * store and travel as hidden `offer` / `feature` fields. Clicking a card never
+ * touches what's typed here: the text fields are uncontrolled and the store
+ * only feeds the select and the attachments.
  */
 export function ContactForm() {
-  const [state, formAction, pending] = useActionState(sendEnquiry, INITIAL_STATE);
+  const { primaryService, offerIds, featureIds, dispatch } = useInterests();
+
+  /* Success is only what the server confirms; then the picks are spent. */
+  const submit = useCallback(
+    async (previous: EnquiryState, formData: FormData): Promise<EnquiryState> => {
+      const result = await sendEnquiry(previous, formData);
+      if (result.status === "sent") {
+        try {
+          track("enquiry_success", {
+            offers: formData.getAll(OFFER_FIELD).length,
+            features: formData.getAll(FEATURE_FIELD).length,
+          });
+        } catch {
+          /* Analytics never blocks an enquiry. */
+        }
+        dispatch({ type: "reset" });
+      }
+      return result;
+    },
+    [dispatch],
+  );
+
+  const [state, formAction, pending] = useActionState(submit, INITIAL_STATE);
 
   if (state.status === "sent") {
     return (
@@ -99,7 +131,8 @@ export function ContactForm() {
           <select
             id="enquiry-service"
             name="service"
-            defaultValue={values?.service ?? ""}
+            value={primaryService}
+            onChange={(event) => dispatch({ type: "set-service", value: event.target.value })}
             {...describe("service")}
           >
             <option value="">Choose one</option>
@@ -113,6 +146,14 @@ export function ContactForm() {
         </div>
       </div>
 
+      <AttachedInterests />
+      {offerIds.map((id) => (
+        <input key={id} type="hidden" name={OFFER_FIELD} value={id} />
+      ))}
+      {featureIds.map((id) => (
+        <input key={id} type="hidden" name={FEATURE_FIELD} value={id} />
+      ))}
+
       <div className="field">
         <label htmlFor="enquiry-message">Project details</label>
         <textarea
@@ -122,10 +163,14 @@ export function ContactForm() {
           required
           minLength={10}
           maxLength={MAX_LENGTH.message}
-          placeholder="What you're building or fixing, what exists today, and any deadline."
+          placeholder="What does your business do, what is slow or manual today, and what would you like to improve?"
           defaultValue={values?.message}
-          {...describe("message")}
+          aria-describedby={errors.message ? "enquiry-message-error" : "enquiry-message-hint"}
+          aria-invalid={errors.message ? true : undefined}
         />
+        <p id="enquiry-message-hint" className="field-hint">
+          Mention the tools you use today and any deadline, if you have one.
+        </p>
         {error("message")}
       </div>
 

@@ -21,9 +21,9 @@ export type Service = {
 
 /**
  * What we build. Only what can be delivered today: no mobile apps and no
- * security audits. Copy follows the approved homepage comp.
- *
- * Keep the count at six: it fills 3 × 2, 2 × 3 and 1 × 6 cleanly.
+ * security audits. The homepage now leads with the solution cards in
+ * catalogue.ts; these six remain the studio's service list for structured
+ * data (`knowsAbout`) and the contact form's options.
  */
 export const SERVICES: readonly Service[] = [
   {
@@ -58,8 +58,18 @@ export const SERVICES: readonly Service[] = [
   },
 ] as const;
 
-/** The contact form's "What do you need?" options. */
+/**
+ * The contact form's "What do you need?" options, and the server's allowlist
+ * for that field. The six service titles stay exactly as they were, since
+ * enquiries already in the inbox use them; the rest match the solution cards
+ * (`SOLUTIONS[].service` in catalogue.ts) and the new offers.
+ */
 export const SERVICE_OPTIONS: readonly string[] = [
+  "Business website",
+  "E-commerce",
   ...SERVICES.map((service) => service.title),
+  "Custom business systems",
+  "AI assistants",
+  "Ongoing support",
   "Not sure yet",
 ];

@@ -10,9 +10,10 @@ export type NavItem = {
  */
 export const NAV_ITEMS: readonly NavItem[] = [
   { id: "work", label: "Work" },
-  { id: "services", label: "Services" },
+  { id: "solutions", label: "Solutions" },
+  { id: "features", label: "Features" },
   { id: "process", label: "Process" },
-  { id: "founder", label: "Founder" },
+  { id: "founder", label: "About" },
 ] as const;
 
 /** The one primary action, everywhere on the site. */

@@ -33,6 +33,7 @@ Kaisora is an engineering-led studio, run by its founder, that builds systems me
 ## Capabilities and Constraints
 
 - Services (current list in `src/lib/content/services.ts`): Web Application Development, Backend Systems & APIs, Business Process Automation, Database Solutions, System Integration, Technical Consulting. Only what can be delivered today: no mobile apps, no security audits.
+- AI services are deliverable today (confirmed by the owner 2026-11-06): AI assistants that answer from approved information, document extraction, and agent-assisted workflows with a person reviewing actions. No AI case study exists yet, so describe them as capabilities and never invent results.
 - Next.js 16 App Router, statically prerendered, Tailwind CSS 4, light and dark themes.
 - Domain: kaisorasystems.com. Contact email: info@kaisorasystems.com (`src/lib/content/contact.ts`). Any value that is unset must hide the UI it drives rather than show a placeholder.
 

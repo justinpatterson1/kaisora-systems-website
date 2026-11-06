@@ -3,6 +3,7 @@ import { Reveal } from "@/components/ui";
 import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL, WHATSAPP_URL } from "@/lib/content/contact";
 import { SITE_NAME, STUDIO_LOCATION } from "@/lib/content/profile";
 
+import { AttachedInterests } from "./attached-interests";
 import { ContactForm } from "./contact-form";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -98,6 +99,7 @@ export function SiteFooter() {
           <Reveal className="wrap contact-grid">
             <div>
               {intro}
+              <AttachedInterests withoutForm />
               {actions}
             </div>
             {brief}

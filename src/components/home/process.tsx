@@ -15,7 +15,7 @@ const STEPS = [
   },
   {
     title: "Launch and support",
-    body: "We deploy with monitoring and backups in place, then stay on to fix, extend and keep it running.",
+    body: "We deploy with monitoring and backups in place, then support the system on terms agreed for your project.",
   },
 ] as const;
 
@@ -29,7 +29,8 @@ export function Process() {
         </h2>
         <p className="section-lede">
           The same discipline on a five-page website as on a payments system:
-          understand the business first, and plan for what goes wrong.
+          understand the business first, and agree the scope and the failure
+          cases before development starts.
         </p>
         <Reveal as="ol" stagger className="steps">
           {STEPS.map((step) => (
