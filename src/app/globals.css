@@ -1873,6 +1873,15 @@ p {
   background: var(--panel);
 }
 
+/* Cards in a row share their four row heights (head, who, scope, foot), so
+   a priced head and a quote-only head still line up the content below. */
+@supports (grid-template-rows: subgrid) {
+  .offer:not(.offer-custom) {
+    grid-row: span 4;
+    grid-template-rows: subgrid;
+  }
+}
+
 .offer h3 {
   margin: 0;
   font-size: 18px;
@@ -1880,19 +1889,49 @@ p {
   letter-spacing: -0.015em;
 }
 
+/* The price always sits under the name, so it can never be stranded on the
+   right when the two don't fit on one line. */
 .offer-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 4px 16px;
+  display: grid;
+  align-content: start;
+  gap: 10px;
 }
 
-.offer-engagement {
+.offer-price {
+  display: grid;
+  justify-items: start;
+  gap: 2px;
   margin: 0;
+}
+
+.offer-price-line {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.offer-price-from {
   font-size: 13px;
-  font-weight: 500;
+  color: var(--fg-3);
+}
+
+.offer-price-amount {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
   color: var(--accent-text);
+}
+
+.offer-price-basis,
+.offer-price-quote {
+  font-size: 13px;
+  color: var(--fg-3);
+}
+
+.offer-price-quote {
+  font-weight: 500;
+  color: var(--fg-2);
 }
 
 .offer-who {
@@ -1938,6 +1977,11 @@ p {
   border-top: 1px solid var(--line);
 }
 
+/* The button stays at the right edge even when the evidence link wraps. */
+.offer-foot .btn {
+  margin-left: auto;
+}
+
 .offer-evidence {
   font-size: 13.5px;
   color: var(--fg-2);
@@ -1964,8 +2008,8 @@ p {
   margin-top: 6px;
 }
 
-.offer-custom .offer-engagement {
-  margin-top: 8px;
+.offer-custom .offer-price {
+  margin-top: 10px;
 }
 
 .offer-custom .offer-scope {

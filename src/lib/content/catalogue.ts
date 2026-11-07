@@ -5,7 +5,8 @@
  * selection) read the same records.
  *
  * Rules, from PRODUCT.md:
- * - Nothing here is a price, a turnaround, a metric or a guarantee.
+ * - Prices appear only where the owner approved one (OfferPrice), always as
+ *   a starting price in TT dollars. No turnarounds, metrics or guarantees.
  * - A feature describes what can be scoped, not something every project gets.
  * - `evidence` links only to work that actually shows the capability, and
  *   founder experience is labelled as prior experience, never as client work.
@@ -55,12 +56,27 @@ export type Solution = {
   cta: string;
 };
 
+/**
+ * A starting price the owner approved, or how the offer is quoted instead.
+ * The approved amounts are recorded in PRODUCT.md ("Pricing"); never add one
+ * that isn't. Each amount lives only here: the FAQ is built from these.
+ */
+export type OfferPrice =
+  | {
+      from: string;
+      /** What the starting price covers, shown under it. */
+      basis: string;
+      /** The same price as a phrase for the cost FAQ; `{from}` is the amount. */
+      phrase: string;
+    }
+  | { quote: string };
+
 export type Offer = {
   id: OfferId;
   title: string;
   who: string;
   scope: readonly string[];
-  engagement: string;
+  price: OfferPrice;
   cta: string;
   evidence?: Evidence;
 };
@@ -153,13 +169,17 @@ export const OFFERS: readonly Offer[] = [
     title: "Kaisora Business Website",
     who: "For businesses that need a professional presence and a clear way to get in touch.",
     scope: [
-      "Responsive pages",
+      "Responsive design",
       "Service information",
       "Contact form",
       "Search metadata",
       "Handover",
     ],
-    engagement: "Fixed scope, project quote",
+    price: {
+      from: "TT$1,000",
+      basis: "Single-page website",
+      phrase: "a single-page business website from {from}",
+    },
     cta: "Discuss my website",
   },
   {
@@ -174,7 +194,11 @@ export const OFFERS: readonly Offer[] = [
       "Order emails",
       "Owner dashboard",
     ],
-    engagement: "Base build plus agreed modules",
+    price: {
+      from: "TT$6,000",
+      basis: "Base build, modules quoted separately",
+      phrase: "an online store's base build from {from}, with modules quoted separately",
+    },
     cta: "Discuss my store",
     evidence: { href: "/work/sherryberries", label: "See the SherryBerries case study" },
   },
@@ -190,7 +214,7 @@ export const OFFERS: readonly Offer[] = [
       "AI-assisted steps with review",
       "Deployment and handover",
     ],
-    engagement: "Discovery, then a quote",
+    price: { quote: "Quoted after discovery" },
     cta: "Discuss a workflow",
     evidence: {
       href: "/work/financial-data-automation",
@@ -208,7 +232,11 @@ export const OFFERS: readonly Offer[] = [
       "Troubleshooting",
       "Change allowance",
     ],
-    engagement: "Monthly, terms in writing",
+    price: {
+      from: "TT$500",
+      basis: "Per month, terms agreed in writing",
+      phrase: "ongoing support from {from} a month",
+    },
     cta: "Ask about support",
   },
   {
@@ -223,13 +251,13 @@ export const OFFERS: readonly Offer[] = [
       "Tool connections",
       "AI assistants",
     ],
-    engagement: "Consultation, then a scoped proposal",
+    price: { quote: "Quoted after consultation" },
     cta: "Discuss a custom system",
   },
 ];
 
 export const OFFER_NOTE =
-  "Every proposal defines the deliverables, running costs, handover and support. Hosting, software subscriptions, payment fees and other third-party charges are identified separately where applicable.";
+  "Starting prices are in Trinidad and Tobago dollars and cover what's described under each price; anything beyond that is quoted. Offers without a price are quoted once the scope is clear. Every proposal defines the deliverables, running costs, handover and support. Hosting, software subscriptions, payment fees and other third-party charges are identified separately where applicable.";
 
 export const FEATURES: readonly Feature[] = [
   {
@@ -406,6 +434,19 @@ export const SUPPORT_COVERAGE: readonly { title: string; body: string }[] = [
   },
 ];
 
+/** The cost answer, built from the offers so prices are never typed twice. */
+function costAnswer(): string {
+  const phrases = OFFERS.flatMap((offer) =>
+    "from" in offer.price ? [offer.price.phrase.replace("{from}", offer.price.from)] : [],
+  );
+  const listed =
+    phrases.length > 1
+      ? `${phrases.slice(0, -1).join("; ")}; and ${phrases[phrases.length - 1]}`
+      : phrases.join("");
+  const opening = listed ? `Starting prices are ${listed}. ` : "";
+  return `${opening}Every project is quoted after we understand the scope, existing systems and running costs, and your proposal explains what is included and any third-party charges.`;
+}
+
 export const FAQS: readonly FaqItem[] = [
   {
     question: "Do you only build websites?",
@@ -424,8 +465,7 @@ export const FAQS: readonly FaqItem[] = [
   },
   {
     question: "How much will my project cost?",
-    answer:
-      "We quote after understanding the scope, existing systems and running costs. Your proposal explains what is included and any third-party charges.",
+    answer: costAnswer(),
   },
   {
     question: "Do you offer support after launch?",

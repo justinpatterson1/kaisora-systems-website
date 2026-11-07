@@ -53,7 +53,8 @@ Kaisora is an engineering-led studio, run by its founder, that builds systems me
 - Case studies link to the live site only, never to a project's repository (owner decision, 2026-10-28).
 - **Financial Data Automation, Market Pricing Automation, Revenue Processing Engine**: the founder's prior professional work, not Kaisora client work. Show them honestly as founder experience, and also as capability examples ("what we can build, based on this experience"). Never present them as Kaisora clients. Keep them generalized: no employer, vendor or system names, no figures.
 - Founder photo in `public/images/about/`.
-- **Absent, never fabricate:** testimonials, client logos, metrics or impact figures, pricing, team members beyond the founder, and completion dates for credentials.
+- **Absent, never fabricate:** testimonials, client logos, metrics or impact figures, team members beyond the founder, and completion dates for credentials.
+- **Pricing (approved by the owner 2026-11-06):** starting prices in TT dollars for three offers only: Kaisora Business Website from TT$1,000 (single-page website), Kaisora Commerce from TT$6,000 (base build, modules quoted separately) and Kaisora Care from TT$500 a month. Workflow Automation and custom work have no published price. Never invent or extrapolate other prices, and keep prices out of structured data.
 
 ## Product Principles
 

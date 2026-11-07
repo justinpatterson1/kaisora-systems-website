@@ -49,6 +49,33 @@ describe("catalogue integrity", () => {
     }
   });
 
+  it("publishes only the prices the owner approved, with what each covers", () => {
+    const priced = Object.fromEntries(
+      OFFERS.flatMap((offer) =>
+        "from" in offer.price ? [[offer.id, [offer.price.from, offer.price.basis]]] : [],
+      ),
+    );
+    expect(priced).toEqual({
+      "business-website": ["TT$1,000", "Single-page website"],
+      commerce: ["TT$6,000", "Base build, modules quoted separately"],
+      care: ["TT$500", "Per month, terms agreed in writing"],
+    });
+  });
+
+  it("states the same prices, with their conditions, in the cost FAQ", () => {
+    const cost = FAQS.find((item) => item.question === "How much will my project cost?");
+    expect(cost?.answer).toContain("a single-page business website from TT$1,000");
+    expect(cost?.answer).toContain(
+      "an online store's base build from TT$6,000, with modules quoted separately",
+    );
+    expect(cost?.answer).toContain("ongoing support from TT$500 a month");
+    // No amount appears in the FAQ that isn't on an offer card.
+    const cardAmounts = OFFERS.flatMap((offer) => ("from" in offer.price ? [offer.price.from] : []));
+    for (const amount of cost?.answer.match(/TT\$\d{1,3}(?:,\d{3})*/g) ?? []) {
+      expect(cardAmounts).toContain(amount);
+    }
+  });
+
   it("has no duplicate questions", () => {
     expect(new Set(FAQS.map((item) => item.question)).size).toBe(FAQS.length);
   });
